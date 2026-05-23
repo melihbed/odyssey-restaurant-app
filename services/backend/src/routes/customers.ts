@@ -1,5 +1,5 @@
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
-import { eq, ilike, desc, sql } from "drizzle-orm";
+import { eq, ilike, desc, asc, sql } from "drizzle-orm";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { HTTPException } from "hono/http-exception";
 import type { Env } from "../db";
@@ -32,6 +32,8 @@ app.openapi(
     request: {
       query: paginationSchema.extend({
         search: z.string().optional(),
+        sortBy: z.enum(["name", "totalSpent", "orderCount", "lastOrder"]).optional(),
+        sortOrder: z.enum(["asc", "desc"]).optional(),
       }),
     },
     responses: {
@@ -52,54 +54,46 @@ app.openapi(
   }),
   async (c) => {
     const db = createDb(c.env);
-    const { page, limit, search } = c.req.valid("query");
+    const { page, limit, search, sortBy, sortOrder } = c.req.valid("query");
     const offset = (page - 1) * limit;
 
-    const baseQuery = db
-      .select({
-        id: customers.id,
-        name: customers.name,
-        email: customers.email,
-        phone: customers.phone,
-        notes: customers.notes,
-        createdAt: customers.createdAt,
-        updatedAt: customers.updatedAt,
-        orderCount: sql<number>`count(${orders.id})::int`,
-        totalSpentCents: sql<number>`coalesce(sum(${orders.totalCents}), 0)::int`,
-        lastOrderAt: sql<string | null>`max(${orders.createdAt})::text`,
-      })
+    const sortCol =
+      sortBy === "totalSpent" ? sql`coalesce(sum(${orders.totalCents}), 0)`
+      : sortBy === "orderCount" ? sql`count(${orders.id})`
+      : sortBy === "lastOrder" ? sql`max(${orders.createdAt})`
+      : sortBy === "name" ? customers.name
+      : customers.createdAt;
+
+    const orderExpr = sortOrder === "asc" ? asc(sortCol) : desc(sortCol);
+    const whereExpr = search ? ilike(customers.name, `%${search}%`) : undefined;
+
+    const fields = {
+      id: customers.id,
+      name: customers.name,
+      email: customers.email,
+      phone: customers.phone,
+      notes: customers.notes,
+      createdAt: customers.createdAt,
+      updatedAt: customers.updatedAt,
+      orderCount: sql<number>`count(${orders.id})::int`,
+      totalSpentCents: sql<number>`coalesce(sum(${orders.totalCents}), 0)::int`,
+      lastOrderAt: sql<string | null>`max(${orders.createdAt})::text`,
+    };
+
+    const rows = await db
+      .select(fields)
       .from(customers)
       .leftJoin(orders, eq(orders.customerId, customers.id))
+      .where(whereExpr)
       .groupBy(customers.id)
-      .orderBy(desc(customers.createdAt));
-
-    const rows = await (search
-      ? db
-          .select({
-            id: customers.id,
-            name: customers.name,
-            email: customers.email,
-            phone: customers.phone,
-            notes: customers.notes,
-            createdAt: customers.createdAt,
-            updatedAt: customers.updatedAt,
-            orderCount: sql<number>`count(${orders.id})::int`,
-            totalSpentCents: sql<number>`coalesce(sum(${orders.totalCents}), 0)::int`,
-            lastOrderAt: sql<string | null>`max(${orders.createdAt})::text`,
-          })
-          .from(customers)
-          .leftJoin(orders, eq(orders.customerId, customers.id))
-          .where(ilike(customers.name, `%${search}%`))
-          .groupBy(customers.id)
-          .orderBy(desc(customers.createdAt))
-          .limit(limit)
-          .offset(offset)
-      : baseQuery.limit(limit).offset(offset));
+      .orderBy(orderExpr)
+      .limit(limit)
+      .offset(offset);
 
     const [countRow] = await db
       .select({ count: sql<number>`count(*)::int` })
       .from(customers)
-      .where(search ? ilike(customers.name, `%${search}%`) : undefined);
+      .where(whereExpr);
 
     return c.json(
       { data: rows, total: countRow?.count ?? 0, page, limit },
@@ -150,6 +144,7 @@ app.openapi(
             schema: customerSelectSchema.extend({
               orderCount: z.number(),
               totalSpentCents: z.number(),
+              lastOrderAt: z.string().nullable(),
               recentOrders: z.array(z.any()),
             }),
           },
@@ -176,6 +171,7 @@ app.openapi(
       .select({
         orderCount: sql<number>`count(${orders.id})::int`,
         totalSpentCents: sql<number>`coalesce(sum(${orders.totalCents}), 0)::int`,
+        lastOrderAt: sql<string | null>`max(${orders.createdAt})::text`,
       })
       .from(orders)
       .where(eq(orders.customerId, id));
@@ -192,6 +188,7 @@ app.openapi(
         ...customer,
         orderCount: stats?.orderCount ?? 0,
         totalSpentCents: stats?.totalSpentCents ?? 0,
+        lastOrderAt: stats?.lastOrderAt ?? null,
         recentOrders,
       },
       200

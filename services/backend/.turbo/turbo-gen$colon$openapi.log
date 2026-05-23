@@ -3,5 +3,5 @@
 > tsx scripts/export-openapi.ts
 
 <-- GET /openapi.json
---> GET /openapi.json [32m200[0m 7ms
+--> GET /openapi.json [32m200[0m 15ms
 ✓ openapi.json exported

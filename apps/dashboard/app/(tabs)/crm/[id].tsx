@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { useState } from 'react'
+import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useLocalSearchParams, useRouter } from 'expo-router'
-import { formatCurrency, formatDate, formatRelativeTime } from '@repo/shared'
+import { formatCurrency, formatDate, formatRelativeTime, getCustomerTier, TIER_META } from '@repo/shared'
 import {
   Avatar, Button, Card, colors, ErrorState, fontSizes, fontWeights,
   AppModal, Input, Skeleton, spacing, StatusBadge,
@@ -31,6 +31,14 @@ export default function CustomerDetailScreen() {
     )
   }
 
+  const tier = customer ? getCustomerTier({
+    orderCount: (customer as any).orderCount ?? 0,
+    totalSpentCents: (customer as any).totalSpentCents ?? 0,
+    lastOrderAt: (customer as any).lastOrderAt ?? null,
+    createdAt: customer.createdAt,
+  }) : null
+  const tierMeta = tier ? TIER_META[tier] : null
+
   return (
     <View style={styles.screen}>
       <View style={styles.navBar}>
@@ -54,10 +62,32 @@ export default function CustomerDetailScreen() {
               <View style={styles.profileRow}>
                 <Avatar name={customer.name} size="lg" />
                 <View style={styles.profileInfo}>
-                  <Text style={styles.customerName}>{customer.name}</Text>
+                  <View style={styles.nameRow}>
+                    <Text style={styles.customerName}>{customer.name}</Text>
+                    {tierMeta && (
+                      <View style={[styles.tierPill, { backgroundColor: tierMeta.color + '18', borderColor: tierMeta.color + '40' }]}>
+                        <Text style={[styles.tierPillText, { color: tierMeta.color }]}>{tierMeta.label}</Text>
+                      </View>
+                    )}
+                  </View>
                   {customer.email ? <Text style={styles.meta}>{customer.email}</Text> : null}
                   {customer.phone ? <Text style={styles.meta}>{customer.phone}</Text> : null}
                   <Text style={styles.since}>Customer since {formatDate(customer.createdAt)}</Text>
+                  {/* Quick contact actions */}
+                  {(customer.email || customer.phone) && (
+                    <View style={styles.contactActions}>
+                      {customer.email && (
+                        <Button size="sm" variant="secondary" onPress={() => Linking.openURL(`mailto:${customer.email}`)}>
+                          Email
+                        </Button>
+                      )}
+                      {customer.phone && (
+                        <Button size="sm" variant="secondary" onPress={() => Linking.openURL(`tel:${customer.phone}`)}>
+                          Call
+                        </Button>
+                      )}
+                    </View>
+                  )}
                 </View>
               </View>
             </Card>
@@ -79,6 +109,12 @@ export default function CustomerDetailScreen() {
                     : '—'}
                 </Text>
                 <Text style={styles.statLabel}>Avg Order</Text>
+              </Card>
+              <Card style={styles.statCard}>
+                <Text style={styles.statValue}>
+                  {(customer as any).lastOrderAt ? formatRelativeTime((customer as any).lastOrderAt) : 'Never'}
+                </Text>
+                <Text style={styles.statLabel}>Last Visit</Text>
               </Card>
             </View>
 
@@ -140,12 +176,16 @@ const styles = StyleSheet.create({
   profile: {},
   profileRow: { flexDirection: 'row', gap: spacing[4], alignItems: 'flex-start' },
   profileInfo: { flex: 1, gap: spacing[1] },
+  nameRow: { flexDirection: 'row', alignItems: 'center', gap: spacing[2], flexWrap: 'wrap' },
   customerName: { fontSize: fontSizes.xl, fontWeight: fontWeights.bold as any, color: colors.textPrimary },
+  tierPill: { paddingHorizontal: 8, paddingVertical: 2, borderRadius: 4, borderWidth: 1 },
+  tierPillText: { fontSize: 11, fontWeight: '700' },
   meta: { fontSize: fontSizes.sm, color: colors.textSecondary },
   since: { fontSize: fontSizes.xs, color: colors.textTertiary, marginTop: spacing[1] },
-  statsRow: { flexDirection: 'row', gap: spacing[3] },
-  statCard: { flex: 1, alignItems: 'center' },
-  statValue: { fontSize: fontSizes.xl, fontWeight: fontWeights.bold as any, color: colors.textPrimary },
+  contactActions: { flexDirection: 'row', gap: spacing[2], marginTop: spacing[2] },
+  statsRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing[3] },
+  statCard: { flex: 1, minWidth: 80, alignItems: 'center' },
+  statValue: { fontSize: fontSizes.lg, fontWeight: fontWeights.bold as any, color: colors.textPrimary, textAlign: 'center' },
   statLabel: { fontSize: fontSizes.xs, color: colors.textSecondary, marginTop: 2 },
   sectionTitle: { fontSize: fontSizes.sm, fontWeight: fontWeights.semibold as any, color: colors.textSecondary, marginBottom: spacing[3] },
   notes: { fontSize: fontSizes.md, color: colors.textPrimary, lineHeight: 22 },

@@ -1095,6 +1095,32 @@
             "required": false,
             "name": "search",
             "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "name",
+                "totalSpent",
+                "orderCount",
+                "lastOrder"
+              ]
+            },
+            "required": false,
+            "name": "sortBy",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            },
+            "required": false,
+            "name": "sortOrder",
+            "in": "query"
           }
         ],
         "responses": {
@@ -1338,6 +1364,10 @@
                     "totalSpentCents": {
                       "type": "number"
                     },
+                    "lastOrderAt": {
+                      "type": "string",
+                      "nullable": true
+                    },
                     "recentOrders": {
                       "type": "array",
                       "items": {
@@ -1355,6 +1385,7 @@
                     "updatedAt",
                     "orderCount",
                     "totalSpentCents",
+                    "lastOrderAt",
                     "recentOrders"
                   ]
                 }

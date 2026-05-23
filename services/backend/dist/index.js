@@ -22846,7 +22846,12 @@ app.openapi(
     method: "get",
     path: "/categories",
     responses: {
-      200: { content: { "application/json": { schema: external_exports.array(categorySelectSchema) } }, description: "List categories" }
+      200: {
+        content: {
+          "application/json": { schema: external_exports.array(categorySelectSchema) }
+        },
+        description: "List categories"
+      }
     }
   }),
   async (c) => {
@@ -22860,10 +22865,20 @@ app.openapi(
     tags: ["menu"],
     method: "post",
     path: "/categories",
-    request: { body: { content: { "application/json": { schema: categoryInsertSchema } } } },
+    request: {
+      body: {
+        content: { "application/json": { schema: categoryInsertSchema } }
+      }
+    },
     responses: {
-      201: { content: { "application/json": { schema: categorySelectSchema } }, description: "Created category" },
-      400: { content: { "application/json": { schema: errorSchema } }, description: "Validation error" }
+      201: {
+        content: { "application/json": { schema: categorySelectSchema } },
+        description: "Created category"
+      },
+      400: {
+        content: { "application/json": { schema: errorSchema } },
+        description: "Validation error"
+      }
     }
   }),
   async (c) => {
@@ -22880,8 +22895,14 @@ app.openapi(
     path: "/categories/{id}",
     request: { params: external_exports.object({ id: external_exports.string().uuid() }) },
     responses: {
-      200: { content: { "application/json": { schema: categorySelectSchema } }, description: "Category" },
-      404: { content: { "application/json": { schema: errorSchema } }, description: "Not found" }
+      200: {
+        content: { "application/json": { schema: categorySelectSchema } },
+        description: "Category"
+      },
+      404: {
+        content: { "application/json": { schema: errorSchema } },
+        description: "Not found"
+      }
     }
   }),
   async (c) => {
@@ -22900,11 +22921,19 @@ app.openapi(
     path: "/categories/{id}",
     request: {
       params: external_exports.object({ id: external_exports.string().uuid() }),
-      body: { content: { "application/json": { schema: categoryUpdateSchema } } }
+      body: {
+        content: { "application/json": { schema: categoryUpdateSchema } }
+      }
     },
     responses: {
-      200: { content: { "application/json": { schema: categorySelectSchema } }, description: "Updated" },
-      404: { content: { "application/json": { schema: errorSchema } }, description: "Not found" }
+      200: {
+        content: { "application/json": { schema: categorySelectSchema } },
+        description: "Updated"
+      },
+      404: {
+        content: { "application/json": { schema: errorSchema } },
+        description: "Not found"
+      }
     }
   }),
   async (c) => {
@@ -22924,8 +22953,16 @@ app.openapi(
     path: "/categories/{id}",
     request: { params: external_exports.object({ id: external_exports.string().uuid() }) },
     responses: {
-      200: { content: { "application/json": { schema: external_exports.object({ success: external_exports.boolean() }) } }, description: "Deleted" },
-      404: { content: { "application/json": { schema: errorSchema } }, description: "Not found" }
+      200: {
+        content: {
+          "application/json": { schema: external_exports.object({ success: external_exports.boolean() }) }
+        },
+        description: "Deleted"
+      },
+      404: {
+        content: { "application/json": { schema: errorSchema } },
+        description: "Not found"
+      }
     }
   }),
   async (c) => {
@@ -22949,7 +22986,12 @@ app.openapi(
       })
     },
     responses: {
-      200: { content: { "application/json": { schema: external_exports.array(menuItemSelectSchema) } }, description: "List items" }
+      200: {
+        content: {
+          "application/json": { schema: external_exports.array(menuItemSelectSchema) }
+        },
+        description: "List items"
+      }
     }
   }),
   async (c) => {
@@ -22971,10 +23013,20 @@ app.openapi(
     tags: ["menu"],
     method: "post",
     path: "/items",
-    request: { body: { content: { "application/json": { schema: menuItemInsertSchema } } } },
+    request: {
+      body: {
+        content: { "application/json": { schema: menuItemInsertSchema } }
+      }
+    },
     responses: {
-      201: { content: { "application/json": { schema: menuItemSelectSchema } }, description: "Created" },
-      400: { content: { "application/json": { schema: errorSchema } }, description: "Validation error" }
+      201: {
+        content: { "application/json": { schema: menuItemSelectSchema } },
+        description: "Created"
+      },
+      400: {
+        content: { "application/json": { schema: errorSchema } },
+        description: "Validation error"
+      }
     }
   }),
   async (c) => {
@@ -22991,8 +23043,14 @@ app.openapi(
     path: "/items/{id}",
     request: { params: external_exports.object({ id: external_exports.string().uuid() }) },
     responses: {
-      200: { content: { "application/json": { schema: menuItemSelectSchema } }, description: "Item" },
-      404: { content: { "application/json": { schema: errorSchema } }, description: "Not found" }
+      200: {
+        content: { "application/json": { schema: menuItemSelectSchema } },
+        description: "Item"
+      },
+      404: {
+        content: { "application/json": { schema: errorSchema } },
+        description: "Not found"
+      }
     }
   }),
   async (c) => {
@@ -23011,11 +23069,19 @@ app.openapi(
     path: "/items/{id}",
     request: {
       params: external_exports.object({ id: external_exports.string().uuid() }),
-      body: { content: { "application/json": { schema: menuItemUpdateSchema } } }
+      body: {
+        content: { "application/json": { schema: menuItemUpdateSchema } }
+      }
     },
     responses: {
-      200: { content: { "application/json": { schema: menuItemSelectSchema } }, description: "Updated" },
-      404: { content: { "application/json": { schema: errorSchema } }, description: "Not found" }
+      200: {
+        content: { "application/json": { schema: menuItemSelectSchema } },
+        description: "Updated"
+      },
+      404: {
+        content: { "application/json": { schema: errorSchema } },
+        description: "Not found"
+      }
     }
   }),
   async (c) => {
@@ -23035,11 +23101,23 @@ app.openapi(
     path: "/items/{id}/availability",
     request: {
       params: external_exports.object({ id: external_exports.string().uuid() }),
-      body: { content: { "application/json": { schema: external_exports.object({ isAvailable: external_exports.boolean() }) } } }
+      body: {
+        content: {
+          "application/json": {
+            schema: external_exports.object({ isAvailable: external_exports.boolean() })
+          }
+        }
+      }
     },
     responses: {
-      200: { content: { "application/json": { schema: menuItemSelectSchema } }, description: "Updated availability" },
-      404: { content: { "application/json": { schema: errorSchema } }, description: "Not found" }
+      200: {
+        content: { "application/json": { schema: menuItemSelectSchema } },
+        description: "Updated availability"
+      },
+      404: {
+        content: { "application/json": { schema: errorSchema } },
+        description: "Not found"
+      }
     }
   }),
   async (c) => {
@@ -23059,8 +23137,16 @@ app.openapi(
     path: "/items/{id}",
     request: { params: external_exports.object({ id: external_exports.string().uuid() }) },
     responses: {
-      200: { content: { "application/json": { schema: external_exports.object({ success: external_exports.boolean() }) } }, description: "Deleted" },
-      404: { content: { "application/json": { schema: errorSchema } }, description: "Not found" }
+      200: {
+        content: {
+          "application/json": { schema: external_exports.object({ success: external_exports.boolean() }) }
+        },
+        description: "Deleted"
+      },
+      404: {
+        content: { "application/json": { schema: errorSchema } },
+        description: "Not found"
+      }
     }
   }),
   async (c) => {
@@ -23074,7 +23160,14 @@ app.openapi(
 );
 
 // src/lib/order-state-machine.ts
-var ORDER_ACTIONS = ["accept", "reject", "start_preparing", "mark_ready", "complete", "cancel"];
+var ORDER_ACTIONS = [
+  "accept",
+  "reject",
+  "start_preparing",
+  "mark_ready",
+  "complete",
+  "cancel"
+];
 var transitions = {
   pending: { accept: "accepted", reject: "rejected" },
   accepted: { start_preparing: "preparing", cancel: "cancelled" },
@@ -23153,7 +23246,9 @@ app2.openapi(
     path: "/",
     request: {
       query: paginationSchema.extend({
-        search: external_exports.string().optional()
+        search: external_exports.string().optional(),
+        sortBy: external_exports.enum(["name", "totalSpent", "orderCount", "lastOrder"]).optional(),
+        sortOrder: external_exports.enum(["asc", "desc"]).optional()
       })
     },
     responses: {
@@ -23174,9 +23269,12 @@ app2.openapi(
   }),
   async (c) => {
     const db = createDb(c.env);
-    const { page, limit, search } = c.req.valid("query");
+    const { page, limit, search, sortBy, sortOrder } = c.req.valid("query");
     const offset = (page - 1) * limit;
-    const baseQuery = db.select({
+    const sortCol = sortBy === "totalSpent" ? sql`coalesce(sum(${orders.totalCents}), 0)` : sortBy === "orderCount" ? sql`count(${orders.id})` : sortBy === "lastOrder" ? sql`max(${orders.createdAt})` : sortBy === "name" ? customers.name : customers.createdAt;
+    const orderExpr = sortOrder === "asc" ? asc(sortCol) : desc(sortCol);
+    const whereExpr = search ? ilike(customers.name, `%${search}%`) : void 0;
+    const fields = {
       id: customers.id,
       name: customers.name,
       email: customers.email,
@@ -23187,21 +23285,13 @@ app2.openapi(
       orderCount: sql`count(${orders.id})::int`,
       totalSpentCents: sql`coalesce(sum(${orders.totalCents}), 0)::int`,
       lastOrderAt: sql`max(${orders.createdAt})::text`
-    }).from(customers).leftJoin(orders, eq(orders.customerId, customers.id)).groupBy(customers.id).orderBy(desc(customers.createdAt));
-    const rows = await (search ? db.select({
-      id: customers.id,
-      name: customers.name,
-      email: customers.email,
-      phone: customers.phone,
-      notes: customers.notes,
-      createdAt: customers.createdAt,
-      updatedAt: customers.updatedAt,
-      orderCount: sql`count(${orders.id})::int`,
-      totalSpentCents: sql`coalesce(sum(${orders.totalCents}), 0)::int`,
-      lastOrderAt: sql`max(${orders.createdAt})::text`
-    }).from(customers).leftJoin(orders, eq(orders.customerId, customers.id)).where(ilike(customers.name, `%${search}%`)).groupBy(customers.id).orderBy(desc(customers.createdAt)).limit(limit).offset(offset) : baseQuery.limit(limit).offset(offset));
-    const [countRow] = await db.select({ count: sql`count(*)::int` }).from(customers).where(search ? ilike(customers.name, `%${search}%`) : void 0);
-    return c.json({ data: rows, total: countRow?.count ?? 0, page, limit }, 200);
+    };
+    const rows = await db.select(fields).from(customers).leftJoin(orders, eq(orders.customerId, customers.id)).where(whereExpr).groupBy(customers.id).orderBy(orderExpr).limit(limit).offset(offset);
+    const [countRow] = await db.select({ count: sql`count(*)::int` }).from(customers).where(whereExpr);
+    return c.json(
+      { data: rows, total: countRow?.count ?? 0, page, limit },
+      200
+    );
   }
 );
 app2.openapi(
@@ -23209,10 +23299,20 @@ app2.openapi(
     tags: ["customers"],
     method: "post",
     path: "/",
-    request: { body: { content: { "application/json": { schema: customerInsertSchema } } } },
+    request: {
+      body: {
+        content: { "application/json": { schema: customerInsertSchema } }
+      }
+    },
     responses: {
-      201: { content: { "application/json": { schema: customerSelectSchema } }, description: "Created customer" },
-      400: { content: { "application/json": { schema: errorSchema2 } }, description: "Validation error" }
+      201: {
+        content: { "application/json": { schema: customerSelectSchema } },
+        description: "Created customer"
+      },
+      400: {
+        content: { "application/json": { schema: errorSchema2 } },
+        description: "Validation error"
+      }
     }
   }),
   async (c) => {
@@ -23235,13 +23335,17 @@ app2.openapi(
             schema: customerSelectSchema.extend({
               orderCount: external_exports.number(),
               totalSpentCents: external_exports.number(),
+              lastOrderAt: external_exports.string().nullable(),
               recentOrders: external_exports.array(external_exports.any())
             })
           }
         },
         description: "Customer detail"
       },
-      404: { content: { "application/json": { schema: errorSchema2 } }, description: "Not found" }
+      404: {
+        content: { "application/json": { schema: errorSchema2 } },
+        description: "Not found"
+      }
     }
   }),
   async (c) => {
@@ -23252,15 +23356,20 @@ app2.openapi(
       throw new HTTPException(404, { message: "Customer not found" });
     const [stats] = await db.select({
       orderCount: sql`count(${orders.id})::int`,
-      totalSpentCents: sql`coalesce(sum(${orders.totalCents}), 0)::int`
+      totalSpentCents: sql`coalesce(sum(${orders.totalCents}), 0)::int`,
+      lastOrderAt: sql`max(${orders.createdAt})::text`
     }).from(orders).where(eq(orders.customerId, id));
     const recentOrders = await db.select().from(orders).where(eq(orders.customerId, id)).orderBy(desc(orders.createdAt)).limit(10);
-    return c.json({
-      ...customer,
-      orderCount: stats?.orderCount ?? 0,
-      totalSpentCents: stats?.totalSpentCents ?? 0,
-      recentOrders
-    }, 200);
+    return c.json(
+      {
+        ...customer,
+        orderCount: stats?.orderCount ?? 0,
+        totalSpentCents: stats?.totalSpentCents ?? 0,
+        lastOrderAt: stats?.lastOrderAt ?? null,
+        recentOrders
+      },
+      200
+    );
   }
 );
 app2.openapi(
@@ -23270,11 +23379,19 @@ app2.openapi(
     path: "/{id}",
     request: {
       params: external_exports.object({ id: external_exports.string().uuid() }),
-      body: { content: { "application/json": { schema: customerUpdateSchema } } }
+      body: {
+        content: { "application/json": { schema: customerUpdateSchema } }
+      }
     },
     responses: {
-      200: { content: { "application/json": { schema: customerSelectSchema } }, description: "Updated" },
-      404: { content: { "application/json": { schema: errorSchema2 } }, description: "Not found" }
+      200: {
+        content: { "application/json": { schema: customerSelectSchema } },
+        description: "Updated"
+      },
+      404: {
+        content: { "application/json": { schema: errorSchema2 } },
+        description: "Not found"
+      }
     }
   }),
   async (c) => {
@@ -23644,7 +23761,12 @@ app6.use("*", prettyJSON());
 app6.use(
   "*",
   cors({
-    origin: ["http://localhost:8081", "http://localhost:3000", "http://localhost:19006"],
+    origin: [
+      "http://localhost:8082",
+      "http://localhost:8081",
+      "http://localhost:3000",
+      "http://localhost:19006"
+    ],
     allowMethods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowHeaders: ["Content-Type", "Authorization"]
   })

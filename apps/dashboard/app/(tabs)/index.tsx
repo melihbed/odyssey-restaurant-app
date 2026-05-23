@@ -126,7 +126,7 @@ export default function HomeScreen() {
           <SectionHeader
             title="Top Menu Items"
             right={
-              <Link href="/(tabs)/menu/index">
+              <Link href="/menu">
                 <Text style={styles.seeAll}>See menu →</Text>
               </Link>
             }
@@ -170,7 +170,7 @@ export default function HomeScreen() {
         <SectionHeader
           title="Recent Orders"
           right={
-            <Link href="/(tabs)/orders/index">
+            <Link href="/orders">
               <Text style={styles.seeAll}>View all →</Text>
             </Link>
           }

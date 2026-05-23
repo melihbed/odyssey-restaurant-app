@@ -323,7 +323,29 @@ page?: number;
  */
 limit?: number;
 search?: string;
+sortBy?: GetCustomersSortBy;
+sortOrder?: GetCustomersSortOrder;
 };
+
+export type GetCustomersSortBy = typeof GetCustomersSortBy[keyof typeof GetCustomersSortBy];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetCustomersSortBy = {
+  name: 'name',
+  totalSpent: 'totalSpent',
+  orderCount: 'orderCount',
+  lastOrder: 'lastOrder',
+} as const;
+
+export type GetCustomersSortOrder = typeof GetCustomersSortOrder[keyof typeof GetCustomersSortOrder];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetCustomersSortOrder = {
+  asc: 'asc',
+  desc: 'desc',
+} as const;
 
 export type GetCustomers200DataItem = {
   id: string;
@@ -394,6 +416,8 @@ export type GetCustomersId200 = {
   updatedAt: string;
   orderCount: number;
   totalSpentCents: number;
+  /** @nullable */
+  lastOrderAt: string | null;
   recentOrders: GetCustomersId200RecentOrdersItem[];
 };
 

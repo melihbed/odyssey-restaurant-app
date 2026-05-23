@@ -13,7 +13,7 @@
   After installation, run Wrangler with `npx wrangler`.
 
 
-Total Upload: 758.41 KiB / gzip: 158.23 KiB
+Total Upload: 759.38 KiB / gzip: 158.43 KiB
 Your worker has access to the following bindings:
 - Vars:
   - ENVIRONMENT: "development"
