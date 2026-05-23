@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import { Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useRouter } from 'expo-router'
 import {
-  Avatar, Badge, Button, Card, colors, EmptyState, ErrorState, fontSizes,
+  Avatar, Badge, Button, Card, colors, DataTable, EmptyState, ErrorState, fontSizes,
   fontWeights, AppModal, Input, Skeleton, SkeletonCard, spacing, StatusBadge,
-  palette, radius, shadows, Select,
+  palette, radius, shadows, Select, useToast,
 } from '@repo/ui'
 
 const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
@@ -22,8 +22,15 @@ const Label = ({ children }: { children: string }) => (
   <Text style={ds.label}>{children}</Text>
 )
 
+const DEMO_TABLE_DATA = [
+  { id: '1', name: 'Margherita Pizza', orders: 142, price: '$14.99' },
+  { id: '2', name: 'Caesar Salad', orders: 98, price: '$11.50' },
+  { id: '3', name: 'Tiramisu', orders: 76, price: '$8.00' },
+]
+
 export default function DesignSystemScreen() {
   const router = useRouter()
+  const toast = useToast()
   const [modalOpen, setModalOpen] = useState(false)
   const [inputVal, setInputVal] = useState('')
   const [selectVal, setSelectVal] = useState<string | undefined>()
@@ -250,6 +257,29 @@ export default function DesignSystemScreen() {
               and a footer with action buttons.
             </Text>
           </AppModal>
+        </Section>
+
+        {/* ── Toast ────────────────────────────────────── */}
+        <Section title="Toast Notifications">
+          <Row wrap>
+            <Button onPress={() => toast.success('Order accepted!')}>Success</Button>
+            <Button variant="secondary" onPress={() => toast.error('Payment failed')}>Error</Button>
+            <Button variant="secondary" onPress={() => toast.warning('Low stock warning')}>Warning</Button>
+            <Button variant="ghost" onPress={() => toast.info('New order received')}>Info</Button>
+          </Row>
+        </Section>
+
+        {/* ── DataTable ────────────────────────────────── */}
+        <Section title="DataTable">
+          <DataTable
+            columns={[
+              { key: 'name', header: 'Item', flex: 2 },
+              { key: 'orders', header: 'Orders', align: 'right' },
+              { key: 'price', header: 'Price', align: 'right' },
+            ]}
+            data={DEMO_TABLE_DATA as any}
+            keyExtractor={(r: any) => r.id}
+          />
         </Section>
 
       </ScrollView>

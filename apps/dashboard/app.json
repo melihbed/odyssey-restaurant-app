@@ -9,7 +9,18 @@
       "output": "single",
       "favicon": "./assets/favicon.png"
     },
-    "platforms": ["ios", "android", "web"],
-    "assetBundlePatterns": ["**/*"]
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "plugins": [
+      "expo-font",
+      "expo-router",
+      "expo-splash-screen"
+    ]
   }
 }

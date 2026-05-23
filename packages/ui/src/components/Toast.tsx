@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
-import { Animated, StyleSheet, Text, View } from 'react-native'
+import { Animated, Pressable, StyleSheet, Text, View } from 'react-native'
 import { fontSizes } from '../tokens/typography'
 import { radius, spacing, shadows } from '../tokens/spacing'
 
@@ -31,25 +31,37 @@ const TOAST_STYLES: Record<ToastType, { bg: string; fg: string; icon: string }> 
 
 function ToastItem({ toast, onRemove }: { toast: Toast; onRemove: (id: string) => void }) {
   const opacity = useRef(new Animated.Value(0)).current
+  const animRef = useRef<Animated.CompositeAnimation | null>(null)
   const { bg, fg, icon } = TOAST_STYLES[toast.type]
 
+  const dismiss = useCallback(() => {
+    animRef.current?.stop()
+    Animated.timing(opacity, { toValue: 0, duration: 150, useNativeDriver: true }).start(() =>
+      onRemove(toast.id)
+    )
+  }, [opacity, onRemove, toast.id])
+
   useEffect(() => {
-    Animated.sequence([
+    const anim = Animated.sequence([
       Animated.timing(opacity, { toValue: 1, duration: 200, useNativeDriver: true }),
       Animated.delay(toast.duration ?? 3000),
       Animated.timing(opacity, { toValue: 0, duration: 200, useNativeDriver: true }),
-    ]).start(() => onRemove(toast.id))
+    ])
+    animRef.current = anim
+    anim.start(({ finished }) => { if (finished) onRemove(toast.id) })
   }, [])
 
   return (
-    <Animated.View style={[styles.toast, { backgroundColor: bg, opacity }]}>
-      <View style={[styles.iconBadge, { backgroundColor: fg }]}>
-        <Text style={styles.iconText}>{icon}</Text>
-      </View>
-      <Text style={[styles.message, { color: fg }]} numberOfLines={2}>
-        {toast.message}
-      </Text>
-    </Animated.View>
+    <Pressable onPress={dismiss}>
+      <Animated.View style={[styles.toast, { backgroundColor: bg, opacity }]}>
+        <View style={[styles.iconBadge, { backgroundColor: fg }]}>
+          <Text style={styles.iconText}>{icon}</Text>
+        </View>
+        <Text style={[styles.message, { color: fg }]} numberOfLines={2}>
+          {toast.message}
+        </Text>
+      </Animated.View>
+    </Pressable>
   )
 }
 
@@ -76,7 +88,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   return (
     <ToastContext.Provider value={value}>
       {children}
-      <View style={styles.container} pointerEvents="none">
+      <View style={styles.container}>
         {toasts.map((t) => (
           <ToastItem key={t.id} toast={t} onRemove={remove} />
         ))}

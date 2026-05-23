@@ -1,42 +1,64 @@
 
+
 > backend@0.0.0 test /Users/melih/Odyssey Assignment/odyssey-restaurant/services/backend
 > vitest run
 
+[?25l
+[1m[46m RUN [49m[22m [36mv3.2.4 [39m[90m/Users/melih/Odyssey Assignment/odyssey-restaurant/services/backend[39m
 
- RUN  v3.2.4 /Users/melih/Odyssey Assignment/odyssey-restaurant/services/backend
+[?2026h
+[1m[33m ❯ [39m[22msrc/__tests__/order-state-machine.test.ts[2m [queued][22m
 
- ✓ src/__tests__/order-state-machine.test.ts (13 tests) 3ms
-stdout | src/__tests__/orders.test.ts > Order validation > rejects empty items array
-<-- POST /orders
+[2m Test Files [22m[1m[32m0 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m[1m[32m0 passed[39m[22m[90m (0)[39m
+[2m   Start at [22m18:18:37
+[2m   Duration [22m404ms
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m src/__tests__/order-state-machine.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 3[2mms[22m[39m
 
-stdout | src/__tests__/orders.test.ts > Order validation > rejects empty items array
---> POST /orders [33m400[0m 1ms
+[1m[33m ❯ [39m[22msrc/__tests__/orders.test.ts[2m [queued][22m
 
-stdout | src/__tests__/orders.test.ts > Order validation > rejects invalid UUID for menuItemId
-<-- POST /orders
+[2m Test Files [22m[1m[32m1 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m[1m[32m13 passed[39m[22m[90m (13)[39m
+[2m   Start at [22m18:18:37
+[2m   Duration [22m915ms
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[90mstdout[2m | src/__tests__/orders.test.ts[2m > [22m[2mOrder validation[2m > [22m[2mrejects empty items array
+[22m[39m<-- POST /orders
 
-stdout | src/__tests__/orders.test.ts > Order validation > rejects invalid UUID for menuItemId
---> POST /orders [33m400[0m 0ms
+[90mstdout[2m | src/__tests__/orders.test.ts[2m > [22m[2mOrder validation[2m > [22m[2mrejects empty items array
+[22m[39m--> POST /orders [33m400[0m 2ms
 
-stdout | src/__tests__/orders.test.ts > Order validation > rejects quantity of 0
-<-- POST /orders
+[90mstdout[2m | src/__tests__/orders.test.ts[2m > [22m[2mOrder validation[2m > [22m[2mrejects invalid UUID for menuItemId
+[22m[39m<-- POST /orders
 
-stdout | src/__tests__/orders.test.ts > Order validation > rejects quantity of 0
---> POST /orders [33m400[0m 0ms
+[90mstdout[2m | src/__tests__/orders.test.ts[2m > [22m[2mOrder validation[2m > [22m[2mrejects invalid UUID for menuItemId
+[22m[39m--> POST /orders [33m400[0m 1ms
 
-stdout | src/__tests__/orders.test.ts > Order actions validation > rejects unknown action
-<-- POST /orders/00000000-0000-0000-0000-000000000001/actions
+[90mstdout[2m | src/__tests__/orders.test.ts[2m > [22m[2mOrder validation[2m > [22m[2mrejects quantity of 0
+[22m[39m<-- POST /orders
 
-stdout | src/__tests__/orders.test.ts > Order actions validation > rejects unknown action
---> POST /orders/00000000-0000-0000-0000-000000000001/actions [33m400[0m 1ms
+[90mstdout[2m | src/__tests__/orders.test.ts[2m > [22m[2mOrder validation[2m > [22m[2mrejects quantity of 0
+[22m[39m--> POST /orders [33m400[0m 1ms
 
-stdout | src/__tests__/orders.test.ts > Menu availability query params > accepts valid available filter
-<-- GET /menu/items?available=true
+[90mstdout[2m | src/__tests__/orders.test.ts[2m > [22m[2mOrder actions validation[2m > [22m[2mrejects unknown action
+[22m[39m<-- POST /orders/00000000-0000-0000-0000-000000000001/actions
 
-stderr | src/__tests__/orders.test.ts > Menu availability query params > accepts valid available filter
-TypeError: Cannot read properties of undefined (reading 'DATABASE_URL')
-    at createDb [90m(/Users/melih/Odyssey Assignment/odyssey-restaurant/services/backend/[39msrc/db/index.ts:10:24[90m)[39m
-    at [90m/Users/melih/Odyssey Assignment/odyssey-restaurant/services/backend/[39msrc/routes/menu.ts:149:16
+[90mstdout[2m | src/__tests__/orders.test.ts[2m > [22m[2mOrder actions validation[2m > [22m[2mrejects unknown action
+[22m[39m--> POST /orders/00000000-0000-0000-0000-000000000001/actions [33m400[0m 1ms
+
+[90mstdout[2m | src/__tests__/orders.test.ts[2m > [22m[2mMenu availability query params[2m > [22m[2maccepts valid available filter
+[22m[39m<-- GET /menu/items?available=true
+
+
+[1m[33m ❯ [39m[22msrc/__tests__/orders.test.ts[2m 1/6[22m
+
+[2m Test Files [22m[1m[32m1 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m[1m[32m14 passed[39m[22m[90m (19)[39m
+[2m   Start at [22m18:18:37
+[2m   Duration [22m1.02s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[90mstderr[2m | src/__tests__/orders.test.ts[2m > [22m[2mMenu availability query params[2m > [22m[2maccepts valid available filter
+[22m[39mTypeError: Cannot read properties of undefined (reading 'DATABASE_URL')
+    at createDb [90m(/Users/melih/Odyssey Assignment/odyssey-restaurant/services/backend/[39msrc/db/index.ts:11:24[90m)[39m
+    at [90m/Users/melih/Odyssey Assignment/odyssey-restaurant/services/backend/[39msrc/routes/menu.ts:205:16
     at dispatch (file:///Users/melih/Odyssey%20Assignment/odyssey-restaurant/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/compose.js:22:23)
     at file:///Users/melih/Odyssey%20Assignment/odyssey-restaurant/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/compose.js:22:46
     at file:///Users/melih/Odyssey%20Assignment/odyssey-restaurant/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/validator/validator.js:81:18
@@ -46,19 +68,34 @@ TypeError: Cannot read properties of undefined (reading 'DATABASE_URL')
     at dispatch (file:///Users/melih/Odyssey%20Assignment/odyssey-restaurant/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/compose.js:22:17)
     at prettyJSON2 (file:///Users/melih/Odyssey%20Assignment/odyssey-restaurant/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/middleware/pretty-json/index.js:6:5)
 
-stdout | src/__tests__/orders.test.ts > Menu availability query params > accepts valid available filter
---> GET /menu/items?available=true [31m500[0m 3ms
 
-stdout | src/__tests__/orders.test.ts > Menu availability query params > rejects invalid available value
-<-- GET /menu/items?available=maybe
+[1m[33m ❯ [39m[22msrc/__tests__/orders.test.ts[2m 1/6[22m
 
-stdout | src/__tests__/orders.test.ts > Menu availability query params > rejects invalid available value
---> GET /menu/items?available=maybe [33m400[0m 0ms
+[2m Test Files [22m[1m[32m1 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m[1m[32m14 passed[39m[22m[90m (19)[39m
+[2m   Start at [22m18:18:37
+[2m   Duration [22m1.02s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[90mstdout[2m | src/__tests__/orders.test.ts[2m > [22m[2mMenu availability query params[2m > [22m[2maccepts valid available filter
+[22m[39m--> GET /menu/items?available=true [31m500[0m 3ms
 
- ✓ src/__tests__/orders.test.ts (6 tests) 12ms
+[90mstdout[2m | src/__tests__/orders.test.ts[2m > [22m[2mMenu availability query params[2m > [22m[2mrejects invalid available value
+[22m[39m<-- GET /menu/items?available=maybe
 
- Test Files  2 passed (2)
-      Tests  19 passed (19)
-   Start at  00:54:52
-   Duration  1.01s (transform 66ms, setup 0ms, collect 334ms, tests 15ms, environment 0ms, prepare 251ms)
+[90mstdout[2m | src/__tests__/orders.test.ts[2m > [22m[2mMenu availability query params[2m > [22m[2mrejects invalid available value
+[22m[39m--> GET /menu/items?available=maybe [33m400[0m 0ms
 
+
+[1m[33m ❯ [39m[22msrc/__tests__/orders.test.ts[2m 1/6[22m
+
+[2m Test Files [22m[1m[32m1 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m[1m[32m14 passed[39m[22m[90m (19)[39m
+[2m   Start at [22m18:18:37
+[2m   Duration [22m1.02s
+[?2026l[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m src/__tests__/orders.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 15[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m2 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[32m19 passed[39m[22m[90m (19)[39m
+[2m   Start at [22m 18:18:37
+[2m   Duration [22m 1.12s[2m (transform 102ms, setup 0ms, collect 615ms, tests 18ms, environment 0ms, prepare 292ms)[22m
+
+[?25h

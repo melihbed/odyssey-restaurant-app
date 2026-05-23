@@ -1,0 +1,32 @@
+node_modules/
+.pnpm-store/
+
+# Expo
+.expo/
+dist/
+web-build/
+*.jsbundle
+
+# Cloudflare / Wrangler
+.wrangler/
+dist/
+
+# Environment — NEVER commit secrets
+.dev.vars
+.env
+.env.local
+.env.*.local
+
+# Drizzle output
+drizzle/
+
+# TypeScript build artifacts
+*.tsbuildinfo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
