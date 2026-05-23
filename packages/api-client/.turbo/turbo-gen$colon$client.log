@@ -1,0 +1,13 @@
+
+> @repo/api-client@0.0.0 gen:client /Users/melih/Odyssey Assignment/odyssey-restaurant/packages/api-client
+> orval --config orval.config.ts
+
+🍻 orval v7.21.0 - A swagger client generator for typescript
+Running afterAllFilesWrite hook...
+🛑 Failed to run afterAllFilesWrite hook - Error: Command failed with ENOENT: prettier --write /Users/melih/Odyssey Assignment/odyssey-restaurant/packages/api-client/src/generated/menu/menu.ts /Users/melih/Odyssey Assignment/odyssey-restaurant/packages/api-client/src/generated/odysseyRestaurantAPI.schemas.ts /Users/melih/Odyssey Assignment/odyssey-restaurant/packages/api-client/src/generated/customers/customers.ts /Users/melih/Odyssey Assignment/odyssey-restaurant/packages/api-client/src/generated/odysseyRestaurantAPI.schemas.ts /Users/melih/Odyssey Assignment/odyssey-restaurant/packages/api-client/src/generated/orders/orders.ts /Users/melih/Odyssey Assignment/odyssey-restaurant/packages/api-client/src/generated/odysseyRestaurantAPI.schemas.ts /Users/melih/Odyssey Assignment/odyssey-restaurant/packages/api-client/src/generated/settings/settings.ts /Users/melih/Odyssey Assignment/odyssey-restaurant/packages/api-client/src/generated/odysseyRestaurantAPI.schemas.ts /Users/melih/Odyssey Assignment/odyssey-restaurant/packages/api-client/src/generated/home/home.ts /Users/melih/Odyssey Assignment/odyssey-restaurant/packages/api-client/src/generated/odysseyRestaurantAPI.schemas.ts
+spawn prettier ENOENT
+    at ChildProcess._handle.onexit (node:internal/child_process:285:19)
+    at onErrorNT (node:internal/child_process:483:16)
+    at process.processTicksAndRejections (node:internal/process/task_queues:89:21)
+⚠️  restaurant - Globally installed prettier not found
+🎉 restaurant - Your OpenAPI spec has been converted into ready to use orval!

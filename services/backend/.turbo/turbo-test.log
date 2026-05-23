@@ -1,0 +1,64 @@
+
+> backend@0.0.0 test /Users/melih/Odyssey Assignment/odyssey-restaurant/services/backend
+> vitest run
+
+
+ RUN  v3.2.4 /Users/melih/Odyssey Assignment/odyssey-restaurant/services/backend
+
+ ✓ src/__tests__/order-state-machine.test.ts (13 tests) 3ms
+stdout | src/__tests__/orders.test.ts > Order validation > rejects empty items array
+<-- POST /orders
+
+stdout | src/__tests__/orders.test.ts > Order validation > rejects empty items array
+--> POST /orders [33m400[0m 1ms
+
+stdout | src/__tests__/orders.test.ts > Order validation > rejects invalid UUID for menuItemId
+<-- POST /orders
+
+stdout | src/__tests__/orders.test.ts > Order validation > rejects invalid UUID for menuItemId
+--> POST /orders [33m400[0m 0ms
+
+stdout | src/__tests__/orders.test.ts > Order validation > rejects quantity of 0
+<-- POST /orders
+
+stdout | src/__tests__/orders.test.ts > Order validation > rejects quantity of 0
+--> POST /orders [33m400[0m 0ms
+
+stdout | src/__tests__/orders.test.ts > Order actions validation > rejects unknown action
+<-- POST /orders/00000000-0000-0000-0000-000000000001/actions
+
+stdout | src/__tests__/orders.test.ts > Order actions validation > rejects unknown action
+--> POST /orders/00000000-0000-0000-0000-000000000001/actions [33m400[0m 1ms
+
+stdout | src/__tests__/orders.test.ts > Menu availability query params > accepts valid available filter
+<-- GET /menu/items?available=true
+
+stderr | src/__tests__/orders.test.ts > Menu availability query params > accepts valid available filter
+TypeError: Cannot read properties of undefined (reading 'DATABASE_URL')
+    at createDb [90m(/Users/melih/Odyssey Assignment/odyssey-restaurant/services/backend/[39msrc/db/index.ts:10:24[90m)[39m
+    at [90m/Users/melih/Odyssey Assignment/odyssey-restaurant/services/backend/[39msrc/routes/menu.ts:149:16
+    at dispatch (file:///Users/melih/Odyssey%20Assignment/odyssey-restaurant/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/compose.js:22:23)
+    at file:///Users/melih/Odyssey%20Assignment/odyssey-restaurant/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/compose.js:22:46
+    at file:///Users/melih/Odyssey%20Assignment/odyssey-restaurant/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/validator/validator.js:81:18
+[90m    at processTicksAndRejections (node:internal/process/task_queues:103:5)[39m
+    at dispatch (file:///Users/melih/Odyssey%20Assignment/odyssey-restaurant/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/compose.js:22:17)
+    at cors2 (file:///Users/melih/Odyssey%20Assignment/odyssey-restaurant/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/middleware/cors/index.js:79:5)
+    at dispatch (file:///Users/melih/Odyssey%20Assignment/odyssey-restaurant/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/compose.js:22:17)
+    at prettyJSON2 (file:///Users/melih/Odyssey%20Assignment/odyssey-restaurant/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/middleware/pretty-json/index.js:6:5)
+
+stdout | src/__tests__/orders.test.ts > Menu availability query params > accepts valid available filter
+--> GET /menu/items?available=true [31m500[0m 3ms
+
+stdout | src/__tests__/orders.test.ts > Menu availability query params > rejects invalid available value
+<-- GET /menu/items?available=maybe
+
+stdout | src/__tests__/orders.test.ts > Menu availability query params > rejects invalid available value
+--> GET /menu/items?available=maybe [33m400[0m 0ms
+
+ ✓ src/__tests__/orders.test.ts (6 tests) 12ms
+
+ Test Files  2 passed (2)
+      Tests  19 passed (19)
+   Start at  00:54:52
+   Duration  1.01s (transform 66ms, setup 0ms, collect 334ms, tests 15ms, environment 0ms, prepare 251ms)
+

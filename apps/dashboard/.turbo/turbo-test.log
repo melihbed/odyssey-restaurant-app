@@ -1,0 +1,15 @@
+
+> dashboard@0.0.0 test /Users/melih/Odyssey Assignment/odyssey-restaurant/apps/dashboard
+> vitest run
+
+
+ RUN  v3.2.4 /Users/melih/Odyssey Assignment/odyssey-restaurant/apps/dashboard
+
+ ✓ __tests__/order-status.test.ts (5 tests) 3ms
+ ✓ __tests__/format.test.ts (10 tests) 36ms
+
+ Test Files  2 passed (2)
+      Tests  15 passed (15)
+   Start at  00:54:52
+   Duration  757ms (transform 93ms, setup 0ms, collect 105ms, tests 38ms, environment 0ms, prepare 294ms)
+

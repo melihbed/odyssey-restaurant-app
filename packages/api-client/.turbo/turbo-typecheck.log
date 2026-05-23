@@ -1,0 +1,4 @@
+
+> @repo/api-client@0.0.0 typecheck /Users/melih/Odyssey Assignment/odyssey-restaurant/packages/api-client
+> tsc --noEmit
+

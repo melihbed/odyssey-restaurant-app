@@ -1,0 +1,7 @@
+
+> backend@0.0.0 gen:openapi /Users/melih/Odyssey Assignment/odyssey-restaurant/services/backend
+> tsx scripts/export-openapi.ts
+
+<-- GET /openapi.json
+--> GET /openapi.json [32m200[0m 7ms
+✓ openapi.json exported

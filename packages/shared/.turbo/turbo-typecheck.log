@@ -1,0 +1,4 @@
+
+> @repo/shared@0.0.0 typecheck /Users/melih/Odyssey Assignment/odyssey-restaurant/packages/shared
+> tsc --noEmit
+

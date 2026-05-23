@@ -1,0 +1,15 @@
+{
+  "expo": {
+    "name": "Odyssey Restaurant",
+    "slug": "odyssey-restaurant",
+    "version": "1.0.0",
+    "scheme": "odyssey-restaurant",
+    "web": {
+      "bundler": "metro",
+      "output": "single",
+      "favicon": "./assets/favicon.png"
+    },
+    "platforms": ["ios", "android", "web"],
+    "assetBundlePatterns": ["**/*"]
+  }
+}

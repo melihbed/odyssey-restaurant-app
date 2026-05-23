@@ -1,0 +1,4 @@
+
+> @repo/ui@0.0.0 typecheck /Users/melih/Odyssey Assignment/odyssey-restaurant/packages/ui
+> tsc --noEmit
+

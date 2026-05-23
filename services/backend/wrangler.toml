@@ -1,0 +1,14 @@
+name = "odyssey-restaurant-backend"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+ENVIRONMENT = "development"
+
+# For local dev, set DATABASE_URL in .dev.vars
+# [[ d1_databases ]] not used — we use Neon serverless PostgreSQL
+
+[[rules]]
+type = "ESModule"
+globs = ["**/*.ts"]
