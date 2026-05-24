@@ -33,8 +33,9 @@ All frontend API types come from Orval-generated code — no handwritten DTOs.
 ```
 apps/dashboard/          # Expo + React Native Web
 services/backend/        # Hono on Cloudflare Workers
+packages/types/          # Canonical domain types (OrderStatus, OrderAction, CustomerTier, …)
+packages/shared/         # Runtime utilities (formatCurrency, dates, order status labels)
 packages/ui/             # Design system (tokens + components)
-packages/shared/         # formatCurrency, dates, order status utils
 packages/api-client/     # Orval-generated hooks + axios mutator
 ```
 
@@ -202,6 +203,8 @@ Visit **/design-system** in the dashboard for a live showcase of all tokens and 
 **Dynamic-ID mutation hooks** — Orval binds the resource ID at hook creation time. For page-level mutations where the target item changes (e.g. delete confirmation modal), the hooks use `useMutation` with the ID as part of the mutation function argument.
 
 **Settings as key-value jsonb** — flexible for schema evolution without migrations; strict Zod validation at the API layer compensates for reduced DB-level type safety.
+
+**`packages/types` as the type authority** — `OrderStatus`, `OrderAction`, and `CustomerTier` are defined once in a dependency-free package. `packages/shared` re-exports them; the backend infers DB types from Drizzle on top of these; Orval-generated API types align automatically. No type is hand-duplicated across layers.
 
 ## Tradeoffs / Incomplete Areas
 
