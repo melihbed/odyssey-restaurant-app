@@ -1,5 +1,5 @@
-import React from 'react'
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Feather } from '@expo/vector-icons'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { formatCurrency, formatDateTime, ORDER_ACTION_LABELS } from '@repo/shared'
 import {
@@ -20,7 +20,8 @@ export default function OrderDetailScreen() {
       <View style={styles.screen}>
         <View style={styles.navBar}>
           <Pressable onPress={() => router.back()} style={styles.backBtn}>
-            <Text style={styles.backText}>← Back</Text>
+            <Feather name="arrow-left" size={16} color={colors.brand} />
+            <Text style={styles.backText}>Back</Text>
           </Pressable>
         </View>
         <ErrorState onRetry={refetch} />
@@ -32,7 +33,8 @@ export default function OrderDetailScreen() {
     <View style={styles.screen}>
       <View style={styles.navBar}>
         <Pressable onPress={() => router.back()} style={styles.backBtn}>
-          <Text style={styles.backText}>← Orders</Text>
+          <Feather name="arrow-left" size={16} color={colors.brand} />
+          <Text style={styles.backText}>Orders</Text>
         </Pressable>
         {order && <StatusBadge status={order.status} />}
       </View>
@@ -147,7 +149,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: colors.borderDefault,
   },
-  backBtn: { paddingVertical: spacing[1] },
+  backBtn: { flexDirection: 'row', alignItems: 'center', gap: spacing[1], paddingVertical: spacing[1] },
   backText: { fontSize: fontSizes.md, color: colors.brand, fontWeight: '500' },
   scroll: { flex: 1 },
   content: { padding: spacing[5], gap: spacing[4] },

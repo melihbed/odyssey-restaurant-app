@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import {
   View,
   Text,
@@ -11,11 +11,11 @@ import { useRouter } from "expo-router";
 import {
   useGetMenuItems,
   useGetCustomers,
+  useGetMenuCategories,
   usePostOrders,
 } from "@repo/api-client";
 import { formatCurrency } from "@repo/shared";
 import {
-  Card,
   Button,
   Select,
   colors,
@@ -36,68 +36,94 @@ interface CartItem {
 export default function NewOrderScreen() {
   const router = useRouter();
 
-  const { data: menuItems, isLoading: isLoadingMenu } = useGetMenuItems();
+  const { data: categories } = useGetMenuCategories();
+  const { data: menuItems, isLoading: isLoadingMenu } = useGetMenuItems({
+    available: "true" as any,
+  });
   const { data: customerResponse, isLoading: isLoadingCustomers } =
     useGetCustomers();
   const { mutate: createOrder, isPending: isSubmitting } = usePostOrders();
 
-  const [selectedCustomerId, setSelectedCustomerId] = useState<string>("");
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
+    null
+  );
+  const [selectedCustomerId, setSelectedCustomerId] = useState("");
   const [cart, setCart] = useState<Record<string, CartItem>>({});
 
-  const customers = customerResponse?.data ?? [];
-  const customerOptions = useMemo(() => {
-    return customers.map((c: any) => ({
-      label: `${c.name} ${c.email ? `(${c.email})` : ""}`,
-      value: c.id,
-    }));
-  }, [customers]);
+  const activeCategories = useMemo(
+    () =>
+      (categories ?? [])
+        .filter((c) => c.isActive)
+        .sort((a, b) => a.sortOrder - b.sortOrder),
+    [categories]
+  );
 
-  const cartTotalCents = useMemo(() => {
-    return Object.values(cart).reduce(
-      (total, item) => total + item.priceCents * item.quantity,
-      0
-    );
-  }, [cart]);
+  const visibleItems = useMemo(() => {
+    const all = menuItems ?? [];
+    if (!selectedCategoryId) return all;
+    return all.filter((item: any) => item.categoryId === selectedCategoryId);
+  }, [menuItems, selectedCategoryId]);
 
-  const adjustCart = (id: string, name: string, priceCents: number, delta: number) => {
+  const customerOptions = useMemo(
+    () =>
+      (customerResponse?.data ?? []).map((c: any) => ({
+        label: `${c.name}${c.email ? ` (${c.email})` : ""}`,
+        value: c.id,
+      })),
+    [customerResponse]
+  );
+
+  const cartTotalCents = useMemo(
+    () =>
+      Object.values(cart).reduce(
+        (sum, item) => sum + item.priceCents * item.quantity,
+        0
+      ),
+    [cart]
+  );
+
+  const adjustCart = (
+    id: string,
+    name: string,
+    priceCents: number,
+    delta: number
+  ) => {
     setCart((prev) => {
-      const current = prev[id] ?? { menuItemId: id, name, priceCents, quantity: 0 }
-      const quantity = current.quantity + delta
+      const current = prev[id] ?? {
+        menuItemId: id,
+        name,
+        priceCents,
+        quantity: 0,
+      };
+      const quantity = current.quantity + delta;
       if (quantity <= 0) {
-        const { [id]: _, ...rest } = prev
-        return rest
+        const { [id]: _, ...rest } = prev;
+        return rest;
       }
-      return { ...prev, [id]: { ...current, quantity } }
-    })
-  }
+      return { ...prev, [id]: { ...current, quantity } };
+    });
+  };
 
   const handleSubmit = () => {
-    const orderItems = Object.values(cart).map((item) => ({
+    const items = Object.values(cart).map((item) => ({
       menuItemId: item.menuItemId,
       quantity: item.quantity,
     }));
-
-    if (orderItems.length === 0) return alert("Cart is empty!");
-
+    if (items.length === 0) return alert("Cart is empty!");
     createOrder(
       {
         data: {
-          // UUID is optional based on spec (but needs to be valid if provided),
-          // we only pass it if a customer was selected.
           ...(selectedCustomerId ? { customerId: selectedCustomerId } : {}),
-          items: orderItems,
+          items,
         },
       },
       {
-        onSuccess: () => {
-          router.replace("/(tabs)/orders"); // Go back to orders list
-        },
-        onError: (err: any) => {
+        onSuccess: () => router.replace("/(tabs)/orders"),
+        onError: (err: any) =>
           alert(
             "Failed to create order: " +
               (err?.response?.data?.message || err.message)
-          );
-        },
+          ),
       }
     );
   };
@@ -105,51 +131,138 @@ export default function NewOrderScreen() {
   return (
     <PageShell title="Create New Order">
       <View style={styles.container}>
-        {/* LEFT COLUMN: Menu Items */}
+        {/* LEFT: Menu */}
         <View style={styles.menuSection}>
-          <Text style={styles.sectionHeader}>Menu</Text>
-          {isLoadingMenu ? (
-            <ActivityIndicator size="large" color={colors.brand} />
-          ) : (
-            <ScrollView contentContainerStyle={styles.menuGrid}>
-              {menuItems?.map((item: any) => (
-                <Pressable
-                  key={item.id}
+          {/* Category tabs */}
+          <View style={styles.tabsContainer}>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              style={styles.tabs}
+              contentContainerStyle={styles.tabsContent}
+            >
+              <Pressable
+                onPress={() => setSelectedCategoryId(null)}
+                style={StyleSheet.flatten([
+                  styles.tab,
+                  !selectedCategoryId ? styles.tabActive : null,
+                ])}
+              >
+                <Text
                   style={[
-                    styles.menuItemCard,
-                    !item.isAvailable && { opacity: 0.5 },
+                    styles.tabText,
+                    !selectedCategoryId ? styles.tabTextActive : null,
                   ]}
-                  onPress={() => item.isAvailable && adjustCart(item.id, item.name, item.priceCents, 1)}
-                  disabled={!item.isAvailable}
                 >
-                  <Text style={styles.menuItemName}>{item.name}</Text>
-                  <Text style={styles.menuItemPrice}>
-                    {formatCurrency(item.priceCents)}
-                  </Text>
-                  {!item.isAvailable && (
-                    <Text style={styles.unavailableText}>Unavailable</Text>
-                  )}
-                </Pressable>
-              ))}
+                  All
+                </Text>
+              </Pressable>
+              {activeCategories.map((cat) => {
+                const active = selectedCategoryId === cat.id;
+                return (
+                  <Pressable
+                    key={cat.id}
+                    onPress={() => setSelectedCategoryId(cat.id)}
+                    style={StyleSheet.flatten([
+                      styles.tab,
+                      active ? styles.tabActive : null,
+                    ])}
+                  >
+                    <Text
+                      style={[
+                        styles.tabText,
+                        active ? styles.tabTextActive : null,
+                      ]}
+                    >
+                      {cat.name}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </ScrollView>
+          </View>
+
+          {/* Items grid */}
+          {isLoadingMenu ? (
+            <ActivityIndicator
+              size="large"
+              color={colors.brand}
+              style={{ marginTop: spacing[8] }}
+            />
+          ) : visibleItems.length === 0 ? (
+            <View style={styles.emptyMenu}>
+              <Text style={styles.emptyMenuText}>
+                No items in this category
+              </Text>
+            </View>
+          ) : (
+            <ScrollView
+              style={styles.menuList}
+              contentContainerStyle={styles.menuGrid}
+            >
+              {visibleItems.map((item: any) => {
+                const qty = cart[item.id]?.quantity ?? 0;
+                const selected = qty > 0;
+                return (
+                  <Pressable
+                    key={item.id}
+                    style={StyleSheet.flatten([
+                      styles.menuItemCard,
+                      selected && styles.menuItemCardSelected,
+                      !item.isAvailable && styles.menuItemCardDisabled,
+                    ])}
+                    onPress={() =>
+                      item.isAvailable &&
+                      adjustCart(item.id, item.name, item.priceCents, 1)
+                    }
+                    disabled={!item.isAvailable}
+                  >
+                    <Text
+                      style={[
+                        styles.menuItemName,
+                        !item.isAvailable && { color: colors.textTertiary },
+                      ]}
+                    >
+                      {item.name}
+                    </Text>
+                    <Text
+                      style={[
+                        styles.menuItemPrice,
+                        selected && { color: colors.brand },
+                      ]}
+                    >
+                      {formatCurrency(item.priceCents)}
+                    </Text>
+                    {!item.isAvailable && (
+                      <Text style={styles.unavailableText}>Unavailable</Text>
+                    )}
+                    {selected && (
+                      <View style={styles.qtyBadge}>
+                        <Text style={styles.qtyBadgeText}>{qty}</Text>
+                      </View>
+                    )}
+                  </Pressable>
+                );
+              })}
             </ScrollView>
           )}
         </View>
 
-        {/* RIGHT COLUMN: Cart & Checkout */}
+        {/* RIGHT: Cart */}
         <View style={styles.sidebar}>
-          <Card padding="md" style={styles.cartCard}>
+          <View style={styles.cartCard}>
             <Text style={styles.sectionHeader}>Order Details</Text>
 
             <View style={styles.inputGroup}>
               <Text style={styles.label}>Customer</Text>
               {isLoadingCustomers ? (
-                <Text>Loading customers...</Text>
+                <Text style={styles.label}>Loading…</Text>
               ) : (
                 <Select
                   options={customerOptions}
                   value={selectedCustomerId}
                   onChange={setSelectedCustomerId}
-                  placeholder="Select a customer..."
+                  placeholder="Select a customer…"
                 />
               )}
             </View>
@@ -165,21 +278,37 @@ export default function NewOrderScreen() {
                     <View style={styles.cartItemLeft}>
                       <Text style={styles.cartItemName}>{item.name}</Text>
                       <Text style={styles.cartItemPrice}>
-                        {formatCurrency(item.priceCents * item.quantity)}
+                        {formatCurrency(item.priceCents)}
                       </Text>
                     </View>
                     <View style={styles.cartActions}>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onPress={() => adjustCart(item.menuItemId, item.name, item.priceCents, -1)}
-                      >-</Button>
+                      <Pressable
+                        style={styles.qtyBtn}
+                        onPress={() =>
+                          adjustCart(
+                            item.menuItemId,
+                            item.name,
+                            item.priceCents,
+                            -1
+                          )
+                        }
+                      >
+                        <Text style={styles.qtyBtnText}>−</Text>
+                      </Pressable>
                       <Text style={styles.cartQuantity}>{item.quantity}</Text>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onPress={() => adjustCart(item.menuItemId, item.name, item.priceCents, 1)}
-                      >+</Button>
+                      <Pressable
+                        style={styles.qtyBtn}
+                        onPress={() =>
+                          adjustCart(
+                            item.menuItemId,
+                            item.name,
+                            item.priceCents,
+                            1
+                          )
+                        }
+                      >
+                        <Text style={styles.qtyBtnText}>+</Text>
+                      </Pressable>
                     </View>
                   </View>
                 ))
@@ -202,10 +331,12 @@ export default function NewOrderScreen() {
                 isSubmitting ||
                 !selectedCustomerId
               }
+              loading={isSubmitting}
+              fullWidth
             >
-              {isSubmitting ? "Submitting..." : "Place Order"}
+              Place Order
             </Button>
-          </Card>
+          </View>
         </View>
       </View>
     </PageShell>
@@ -213,37 +344,106 @@ export default function NewOrderScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flexDirection: "row", gap: spacing[6], flex: 1, minHeight: 500 },
-  menuSection: { flex: 2 },
-  sidebar: { flex: 1, minWidth: 320 },
-  sectionHeader: {
-    fontSize: fontSizes.lg,
-    fontWeight: fontWeights.bold as any,
-    color: colors.textPrimary,
-    marginBottom: spacing[4],
+  container: { flexDirection: "row", gap: spacing[6], flex: 1 },
+
+  // Menu section
+  menuSection: { flex: 2, display: "flex" as any, flexDirection: "column" },
+
+  // Category tabs
+  tabsContainer: { height: 48, marginBottom: spacing[4] },
+  tabs: { flex: 1 },
+  tabsContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing[2],
+    paddingHorizontal: spacing[1],
   },
-  menuGrid: { flexDirection: "row", flexWrap: "wrap", gap: spacing[4] },
+  tab: {
+    paddingHorizontal: spacing[4],
+    paddingVertical: spacing[2],
+    borderRadius: radius.full,
+    borderWidth: 1,
+    borderColor: colors.borderDefault,
+    backgroundColor: "transparent",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  tabActive: { backgroundColor: colors.brand, borderColor: colors.brand },
+  tabText: {
+    fontSize: fontSizes.sm,
+    fontWeight: "600",
+    color: colors.textSecondary,
+  },
+  tabTextActive: { color: "#fff" },
+
+  // Grid
+  menuList: { flex: 1 },
+  menuGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: spacing[3],
+    paddingBottom: spacing[6],
+  },
   menuItemCard: {
     backgroundColor: colors.bgSurface,
     borderWidth: 1,
     borderColor: colors.borderDefault,
     borderRadius: radius.md,
     padding: spacing[4],
-    width: 200,
+    width: 180,
+    position: "relative",
+    display: "flex",
   },
+  menuItemCardSelected: { borderColor: colors.brand, borderWidth: 2 },
+  menuItemCardDisabled: { opacity: 0.45 },
   menuItemName: {
     fontSize: fontSizes.md,
     fontWeight: "600",
     color: colors.textPrimary,
-    marginBottom: spacing[2],
+    marginBottom: spacing[1],
   },
-  menuItemPrice: { fontSize: fontSizes.md, color: colors.textSecondary },
+  menuItemPrice: { fontSize: fontSizes.sm, color: colors.textSecondary },
   unavailableText: {
-    color: colors.errorFg,
+    color: "#dc2626",
     fontSize: fontSizes.xs,
-    marginTop: spacing[2],
+    marginTop: spacing[1],
   },
-  cartCard: { flex: 1 },
+  qtyBadge: {
+    position: "absolute",
+    top: spacing[2],
+    right: spacing[2],
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: colors.brand,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  qtyBadgeText: { fontSize: 11, fontWeight: "700", color: "#fff" },
+  emptyMenu: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: spacing[16],
+  },
+  emptyMenuText: { fontSize: fontSizes.md, color: colors.textTertiary },
+
+  // Cart sidebar
+  sidebar: { width: 360 },
+  cartCard: {
+    flex: 1,
+    backgroundColor: colors.bgSurface,
+    borderWidth: 1,
+    borderColor: colors.borderDefault,
+    borderRadius: radius.lg,
+    padding: spacing[5],
+  },
+  sectionHeader: {
+    fontSize: fontSizes.lg,
+    fontWeight: fontWeights.bold as any,
+    color: colors.textPrimary,
+    marginBottom: spacing[4],
+  },
   inputGroup: { marginBottom: spacing[4] },
   label: {
     fontSize: fontSizes.sm,
@@ -277,11 +477,25 @@ const styles = StyleSheet.create({
   },
   cartItemPrice: { fontSize: fontSizes.xs, color: colors.textSecondary },
   cartActions: { flexDirection: "row", alignItems: "center", gap: spacing[2] },
+  qtyBtn: {
+    width: 28,
+    height: 28,
+    borderRadius: 6,
+    backgroundColor: colors.bgSubtle,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  qtyBtnText: {
+    fontSize: fontSizes.md,
+    fontWeight: "600",
+    color: colors.textPrimary,
+  },
   cartQuantity: {
     width: 24,
     textAlign: "center",
     fontSize: fontSizes.sm,
     fontWeight: "600",
+    color: colors.textPrimary,
   },
   totalRow: {
     flexDirection: "row",
@@ -296,7 +510,7 @@ const styles = StyleSheet.create({
   },
   totalValue: {
     fontSize: fontSizes.xl,
-    fontWeight: "bold",
+    fontWeight: "bold" as any,
     color: colors.brand,
   },
 });

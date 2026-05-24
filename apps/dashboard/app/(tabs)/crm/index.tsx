@@ -492,18 +492,17 @@ const styles = StyleSheet.create({
 
   // Segment chips
   chipsContainer: {
-    height: 48, // Constrain container height
     backgroundColor: colors.bgSurface,
     borderBottomWidth: 1,
     borderBottomColor: colors.borderDefault,
   },
-  chips: { flex: 1 },
+  chips: { height: 44 },
   chipsContent: {
     flexDirection: "row",
-    alignItems: "center", // Prevening stretching
+    alignItems: "center",
     gap: spacing[2],
     paddingHorizontal: spacing[6],
-    paddingVertical: spacing[1],
+    height: 44,
   },
   chip: {
     paddingHorizontal: spacing[3],

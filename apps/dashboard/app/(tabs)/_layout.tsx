@@ -1,16 +1,18 @@
 import { Slot, Tabs, usePathname, Link } from 'expo-router'
 import React from 'react'
 import { Platform, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Feather } from '@expo/vector-icons'
 import { colors, fontSizes, spacing } from '@repo/ui'
 
-const NAV_ITEMS = [
-  { href: '/', label: 'Home', icon: '⌂' },
-  { href: '/orders', label: 'Orders', icon: '≡' },
-  { href: '/crm', label: 'Customers', icon: '◎' },
-  { href: '/menu', label: 'Menu', icon: '✦' },
-  { href: '/settings', label: 'Settings', icon: '◈' },
-] as const
+type FeatherName = React.ComponentProps<typeof Feather>['name']
 
+const NAV_ITEMS: { href: string; label: string; icon: FeatherName }[] = [
+  { href: '/',         label: 'Home',      icon: 'home' },
+  { href: '/orders',   label: 'Orders',    icon: 'clipboard' },
+  { href: '/crm',      label: 'Customers', icon: 'users' },
+  { href: '/menu',     label: 'Menu',      icon: 'book-open' },
+  { href: '/settings', label: 'Settings',  icon: 'settings' },
+] as const
 
 function Sidebar() {
   const pathname = usePathname()
@@ -37,7 +39,7 @@ function Sidebar() {
             <Link key={href} href={href as any} asChild>
               <Pressable style={StyleSheet.flatten([styles.navItem, active ? styles.navItemActive : null])}>
                 <View style={[styles.navIconWrap, active ? styles.navIconWrapActive : null]}>
-                  <Text style={[styles.navIcon, active ? styles.navIconActive : null]}>{icon}</Text>
+                  <Feather name={icon} size={15} color={active ? '#fff' : colors.textSecondary} />
                 </View>
                 <Text style={StyleSheet.flatten([styles.navLabel, active ? styles.navLabelActive : null])}>
                   {label}
@@ -60,12 +62,8 @@ function Sidebar() {
   )
 }
 
-function TabIcon({ emoji, focused }: { emoji: string; focused: boolean }) {
-  return (
-    <View style={[styles.tabIcon, focused ? styles.tabIconActive : null]}>
-      <Text style={styles.tabEmoji}>{emoji}</Text>
-    </View>
-  )
+function TabIcon({ name, color }: { name: FeatherName; color: string | unknown }) {
+  return <Feather name={name} size={22} color={color as string} />
 }
 
 export default function TabLayout() {
@@ -91,13 +89,13 @@ export default function TabLayout() {
         tabBarShowLabel: true,
       }}
     >
-      <Tabs.Screen name="index" options={{ title: 'Home', tabBarIcon: ({ focused }) => <TabIcon emoji="🏠" focused={focused} /> }} />
-      <Tabs.Screen name="orders/index" options={{ title: 'Orders', tabBarIcon: ({ focused }) => <TabIcon emoji="📋" focused={focused} /> }} />
-      <Tabs.Screen name="crm/index" options={{ title: 'CRM', tabBarIcon: ({ focused }) => <TabIcon emoji="👥" focused={focused} /> }} />
-      <Tabs.Screen name="menu/index" options={{ title: 'Menu', tabBarIcon: ({ focused }) => <TabIcon emoji="🍽️" focused={focused} /> }} />
-      <Tabs.Screen name="settings" options={{ title: 'Settings', tabBarIcon: ({ focused }) => <TabIcon emoji="⚙️" focused={focused} /> }} />
-      <Tabs.Screen name="orders/[id]" options={{ href: null }} />
-      <Tabs.Screen name="crm/[id]" options={{ href: null }} />
+      <Tabs.Screen name="index"        options={{ title: 'Home',     tabBarIcon: ({ color }) => <TabIcon name="home"      color={color} /> }} />
+      <Tabs.Screen name="orders/index" options={{ title: 'Orders',   tabBarIcon: ({ color }) => <TabIcon name="clipboard" color={color} /> }} />
+      <Tabs.Screen name="crm/index"    options={{ title: 'Customers',tabBarIcon: ({ color }) => <TabIcon name="users"     color={color} /> }} />
+      <Tabs.Screen name="menu/index"   options={{ title: 'Menu',     tabBarIcon: ({ color }) => <TabIcon name="book-open" color={color} /> }} />
+      <Tabs.Screen name="settings"     options={{ title: 'Settings', tabBarIcon: ({ color }) => <TabIcon name="settings"  color={color} /> }} />
+      <Tabs.Screen name="orders/[id]"  options={{ href: null }} />
+      <Tabs.Screen name="crm/[id]"     options={{ href: null }} />
     </Tabs>
   )
 }
@@ -170,8 +168,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.bgSubtle,
   },
   navIconWrapActive: { backgroundColor: colors.brand },
-  navIcon: { fontSize: 13, color: colors.textSecondary },
-  navIconActive: { color: '#fff' },
   navLabel: { fontSize: fontSizes.sm, color: colors.textSecondary, fontWeight: '500' },
   navLabelActive: { color: colors.brand, fontWeight: '600' },
 
@@ -191,7 +187,4 @@ const styles = StyleSheet.create({
     height: Platform.OS === 'ios' ? 82 : 60,
   },
   tabLabel: { fontSize: 11, fontWeight: '500' },
-  tabIcon: { padding: spacing[0.5] },
-  tabIconActive: {},
-  tabEmoji: { fontSize: 20 },
 })

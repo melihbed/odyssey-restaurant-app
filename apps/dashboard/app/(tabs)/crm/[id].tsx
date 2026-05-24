@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Feather } from '@expo/vector-icons'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { formatCurrency, formatDate, formatRelativeTime, getCustomerTier, TIER_META } from '@repo/shared'
 import {
@@ -43,7 +44,8 @@ export default function CustomerDetailScreen() {
     <View style={styles.screen}>
       <View style={styles.navBar}>
         <Pressable onPress={() => router.back()} style={styles.backBtn}>
-          <Text style={styles.backText}>← CRM</Text>
+          <Feather name="arrow-left" size={16} color={colors.brand} />
+          <Text style={styles.backText}>CRM</Text>
         </Pressable>
         {customer && <Button size="sm" variant="secondary" onPress={openEdit}>Edit</Button>}
       </View>
@@ -169,7 +171,7 @@ export default function CustomerDetailScreen() {
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.bgDefault },
   navBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: spacing[5], paddingVertical: spacing[3], paddingTop: spacing[8], backgroundColor: colors.bgSurface, borderBottomWidth: 1, borderBottomColor: colors.borderDefault },
-  backBtn: { paddingVertical: spacing[1] },
+  backBtn: { flexDirection: 'row', alignItems: 'center', gap: spacing[1], paddingVertical: spacing[1] },
   backText: { fontSize: fontSizes.md, color: colors.brand, fontWeight: '500' },
   scroll: { flex: 1 },
   content: { padding: spacing[5], gap: spacing[4] },
