@@ -53,7 +53,13 @@ function Sidebar() {
       {/* Footer */}
       <View style={styles.sidebarFooter}>
         <View style={styles.footerDivider} />
-        <View style={styles.footerInfo}>
+        <Link href="/design-system" asChild>
+          <Pressable style={styles.footerLink}>
+            <Feather name="layout" size={12} color={colors.textTertiary} />
+            <Text style={styles.footerLinkText}>Design System</Text>
+          </Pressable>
+        </Link>
+        <View style={[styles.footerInfo, { marginTop: spacing[2] }]}>
           <View style={[styles.statusDot, { backgroundColor: '#22c55e' }]} />
           <Text style={styles.footerText}>Service online</Text>
         </View>
@@ -177,6 +183,8 @@ const styles = StyleSheet.create({
   footerInfo: { flexDirection: 'row', alignItems: 'center', gap: spacing[2] },
   statusDot: { width: 7, height: 7, borderRadius: 4 },
   footerText: { fontSize: fontSizes.xs, color: colors.textTertiary, fontWeight: '500' },
+  footerLink: { flexDirection: 'row', alignItems: 'center', gap: spacing[2] },
+  footerLinkText: { fontSize: fontSizes.xs, color: colors.textTertiary, fontWeight: '500' },
 
   // Native tabs
   tabBar: {

@@ -11,6 +11,9 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint src"
   },
+  "dependencies": {
+    "@repo/types": "workspace:*"
+  },
   "devDependencies": {
     "typescript": "^5.7.2"
   }

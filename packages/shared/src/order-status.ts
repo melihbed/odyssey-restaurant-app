@@ -1,3 +1,5 @@
+export type { OrderStatus, OrderAction } from '@repo/types'
+
 export const ORDER_STATUS_LABELS: Record<string, string> = {
   pending: 'Pending',
   accepted: 'Accepted',
@@ -26,12 +28,3 @@ export const ORDER_ACTION_LABELS: Record<string, string> = {
   complete: 'Complete',
   cancel: 'Cancel Order',
 }
-
-export type OrderStatus =
-  | 'pending'
-  | 'accepted'
-  | 'rejected'
-  | 'preparing'
-  | 'ready'
-  | 'completed'
-  | 'cancelled'

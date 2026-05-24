@@ -1,4 +1,5 @@
-export type CustomerTier = 'vip' | 'regular' | 'new' | 'at-risk'
+import type { CustomerTier } from '@repo/types'
+export type { CustomerTier } from '@repo/types'
 
 export function getCustomerTier(c: {
   orderCount: number

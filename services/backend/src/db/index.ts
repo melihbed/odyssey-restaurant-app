@@ -19,4 +19,5 @@ export function createDb(url?: string) {
 }
 
 export type Db = ReturnType<typeof createDb>;
+export type Env = { DATABASE_URL: string };
 export * from "./schema";

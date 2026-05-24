@@ -1,0 +1,4 @@
+
+> @repo/types@0.0.0 typecheck /Users/melih/Odyssey Assignment/odyssey-restaurant/packages/types
+> tsc --noEmit
+
