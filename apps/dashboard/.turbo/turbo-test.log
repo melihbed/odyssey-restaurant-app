@@ -7,18 +7,18 @@
 [1m[46m RUN [49m[22m [36mv3.2.4 [39m[90m/Users/melih/Odyssey Assignment/odyssey-restaurant/apps/dashboard[39m
 
 [?2026h
-[1m[33m ❯ [39m[22m__tests__/order-status.test.ts[2m [queued][22m
+[1m[33m ❯ [39m[22m__tests__/format.test.ts[2m [queued][22m
 
 [2m Test Files [22m[1m[32m0 passed[39m[22m[90m (2)[39m
 [2m      Tests [22m[1m[32m0 passed[39m[22m[90m (0)[39m
-[2m   Start at [22m18:18:37
-[2m   Duration [22m413ms
-[?2026l[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m __tests__/order-status.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 2[2mms[22m[39m
- [32m✓[39m __tests__/format.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 28[2mms[22m[39m
+[2m   Start at [22m21:09:16
+[2m   Duration [22m510ms
+[?2026l[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m __tests__/order-status.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m __tests__/format.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 13[2mms[22m[39m
 
 [2m Test Files [22m [1m[32m2 passed[39m[22m[90m (2)[39m
 [2m      Tests [22m [1m[32m15 passed[39m[22m[90m (15)[39m
-[2m   Start at [22m 18:18:37
-[2m   Duration [22m 590ms[2m (transform 61ms, setup 0ms, collect 76ms, tests 30ms, environment 0ms, prepare 201ms)[22m
+[2m   Start at [22m 21:09:16
+[2m   Duration [22m 662ms[2m (transform 68ms, setup 0ms, collect 89ms, tests 15ms, environment 0ms, prepare 308ms)[22m
 
 [?25h

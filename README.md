@@ -108,6 +108,34 @@ pnpm dev:dashboard
 | `pnpm test` | Run all tests |
 | `pnpm build` | Full production build |
 
+## Testing
+
+Run the full test suite across all packages:
+
+```bash
+pnpm test
+```
+
+34 tests across 3 suites, all passing with no real database required.
+
+### Backend (`services/backend`)
+
+**Order State Machine — 13 tests**  
+Pure unit tests for `lib/order-state-machine.ts`. Covers every valid transition (`pending → accepted`, `accepted → preparing`, etc.), every illegal transition throwing a 422, and `getValidActions` returning the correct available actions per status (including empty arrays for terminal statuses).
+
+**Order & Menu HTTP Validation — 6 tests**  
+Integration-style tests against the Hono app with the database mocked via `vi.mock`. Covers Zod rejection of empty items arrays, invalid UUIDs, zero quantities, unknown order actions, and invalid query parameter values — plus a happy-path assertion that `GET /menu/items?available=true` returns `200 []`.
+
+### Dashboard (`apps/dashboard`)
+
+**Order Status Constants — 5 tests**  
+Tests the `ORDER_STATUS_LABELS`, `ORDER_STATUS_COLORS`, and `ORDER_ACTION_LABELS` constants from `@repo/shared`. Verifies every status has a label and a valid `#rrggbb` hex color, and that terminal vs. active statuses use distinct colors.
+
+**Formatting Utilities — 10 tests**  
+Tests `formatCurrency`, `formatCompactNumber`, `truncate`, and `initials` from `@repo/shared`. Covers cents-to-dollars formatting, thousands abbreviation, ellipsis truncation, and initials extraction.
+
+---
+
 ## API Reference
 
 Interactive docs at **http://localhost:8787/ui** when backend is running.

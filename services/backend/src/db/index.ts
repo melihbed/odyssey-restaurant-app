@@ -3,14 +3,17 @@ import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
 import * as schema from "./schema";
 
-export type Env = {
-  DATABASE_URL: string;
-};
+export function createDb(envUrl?: string) {
+  const url = envUrl || process.env.DATABASE_URL;
 
-export function createDb(env: Env) {
-  const sql = neon(env.DATABASE_URL);
-  return drizzle(sql, { schema });
+  if (!url) {
+    throw new Error("DATABASE_URL is not set");
+  }
+
+  const sql = neon(url);
+  return drizzle(sql);
 }
 
+// export create db function that every route calls to get a DB connection
 export type Db = ReturnType<typeof createDb>;
 export * from "./schema";

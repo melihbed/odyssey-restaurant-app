@@ -1,12 +1,23 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import app from '../index'
 
-// Integration-style tests against the Hono app using in-memory mock
-const mockDb = {
-  menuItems: new Map<string, { id: string; name: string; priceCents: number; isAvailable: boolean }>(),
-  customers: new Map<string, { id: string; name: string }>(),
-  orders: new Map<string, { id: string; status: string; totalCents: number }>(),
+const mockDbInstance = {
+  select: vi.fn().mockReturnThis(),
+  from: vi.fn().mockReturnThis(),
+  where: vi.fn().mockReturnThis(),
+  orderBy: vi.fn().mockResolvedValue([]),
+  insert: vi.fn().mockReturnThis(),
+  values: vi.fn().mockReturnThis(),
+  returning: vi.fn().mockResolvedValue([]),
+  update: vi.fn().mockReturnThis(),
+  set: vi.fn().mockReturnThis(),
+  delete: vi.fn().mockReturnThis(),
 }
+
+vi.mock('../db', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../db')>()
+  return { ...actual, createDb: vi.fn(() => mockDbInstance) }
+})
 
 // Unit tests for order validation logic (without DB)
 describe('Order validation', () => {
@@ -54,10 +65,9 @@ describe('Order actions validation', () => {
 
 describe('Menu availability query params', () => {
   it('accepts valid available filter', async () => {
-    // Without DB it'll fail at query time but schema validation passes
     const res = await app.request('/menu/items?available=true')
-    // Should not be 400 (schema validation passes)
-    expect(res.status).not.toBe(400)
+    expect(res.status).toBe(200)
+    expect(await res.json()).toEqual([])
   })
 
   it('rejects invalid available value', async () => {

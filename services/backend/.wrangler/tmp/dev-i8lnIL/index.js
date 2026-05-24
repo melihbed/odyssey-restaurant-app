@@ -9383,10 +9383,10 @@ var cors = /* @__PURE__ */ __name((options) => {
 
 // ../../node_modules/.pnpm/hono@4.12.22/node_modules/hono/dist/utils/color.js
 function getColorEnabled() {
-  const { process, Deno } = globalThis;
-  const isNoColor = typeof Deno?.noColor === "boolean" ? Deno.noColor : process !== void 0 ? (
+  const { process: process2, Deno } = globalThis;
+  const isNoColor = typeof Deno?.noColor === "boolean" ? Deno.noColor : process2 !== void 0 ? (
     // eslint-disable-next-line no-unsafe-optional-chaining
-    "NO_COLOR" in process?.env
+    "NO_COLOR" in process2?.env
   ) : false;
   return !isNoColor;
 }
@@ -22756,16 +22756,6 @@ __name(drizzle, "drizzle");
 })(drizzle || (drizzle = {}));
 
 // src/db/schema.ts
-var schema_exports = {};
-__export(schema_exports, {
-  customers: () => customers,
-  menuCategories: () => menuCategories,
-  menuItems: () => menuItems,
-  orderItems: () => orderItems,
-  orderStatusEnum: () => orderStatusEnum,
-  orders: () => orders,
-  settings: () => settings
-});
 var orderStatusEnum = pgEnum("order_status", [
   "pending",
   "accepted",
@@ -22832,9 +22822,13 @@ var settings = pgTable("settings", {
 });
 
 // src/db/index.ts
-function createDb(env2) {
-  const sql2 = Xs(env2.DATABASE_URL);
-  return drizzle(sql2, { schema: schema_exports });
+function createDb(envUrl) {
+  const url = envUrl || process.env.DATABASE_URL;
+  if (!url) {
+    throw new Error("DATABASE_URL is not set");
+  }
+  const sql2 = Xs(url);
+  return drizzle(sql2);
 }
 __name(createDb, "createDb");
 
