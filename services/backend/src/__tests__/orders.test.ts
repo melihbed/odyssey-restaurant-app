@@ -63,15 +63,17 @@ describe('Order actions validation', () => {
   })
 })
 
+const fakeEnv = { DATABASE_URL: 'postgresql://x:x@localhost/x' }
+
 describe('Menu availability query params', () => {
   it('accepts valid available filter', async () => {
-    const res = await app.request('/menu/items?available=true')
+    const res = await app.request('/menu/items?available=true', {}, fakeEnv)
     expect(res.status).toBe(200)
     expect(await res.json()).toEqual([])
   })
 
   it('rejects invalid available value', async () => {
-    const res = await app.request('/menu/items?available=maybe')
+    const res = await app.request('/menu/items?available=maybe', {}, fakeEnv)
     expect(res.status).toBe(400)
   })
 })

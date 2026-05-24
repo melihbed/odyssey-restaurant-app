@@ -32,7 +32,9 @@ app.openapi(
     request: {
       query: paginationSchema.extend({
         search: z.string().optional(),
-        sortBy: z.enum(["name", "totalSpent", "orderCount", "lastOrder"]).optional(),
+        sortBy: z
+          .enum(["name", "totalSpent", "orderCount", "lastOrder"])
+          .optional(),
         sortOrder: z.enum(["asc", "desc"]).optional(),
       }),
     },
@@ -53,16 +55,20 @@ app.openapi(
     },
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const { page, limit, search, sortBy, sortOrder } = c.req.valid("query");
     const offset = (page - 1) * limit;
 
     const sortCol =
-      sortBy === "totalSpent" ? sql`coalesce(sum(${orders.totalCents}), 0)`
-      : sortBy === "orderCount" ? sql`count(${orders.id})`
-      : sortBy === "lastOrder" ? sql`max(${orders.createdAt})`
-      : sortBy === "name" ? customers.name
-      : customers.createdAt;
+      sortBy === "totalSpent"
+        ? sql`coalesce(sum(${orders.totalCents}), 0)`
+        : sortBy === "orderCount"
+        ? sql`count(${orders.id})`
+        : sortBy === "lastOrder"
+        ? sql`max(${orders.createdAt})`
+        : sortBy === "name"
+        ? customers.name
+        : customers.createdAt;
 
     const orderExpr = sortOrder === "asc" ? asc(sortCol) : desc(sortCol);
     const whereExpr = search ? ilike(customers.name, `%${search}%`) : undefined;
@@ -124,7 +130,7 @@ app.openapi(
     },
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const body = c.req.valid("json");
     const [row] = await db.insert(customers).values(body).returning();
     return c.json(row!, 201);
@@ -158,7 +164,7 @@ app.openapi(
     },
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const { id } = c.req.valid("param");
     const [customer] = await db
       .select()
@@ -219,7 +225,7 @@ app.openapi(
     },
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const { id } = c.req.valid("param");
     const body = c.req.valid("json");
     const [row] = await db

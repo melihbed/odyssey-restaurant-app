@@ -45,7 +45,7 @@ app.openapi(
     },
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const rows = await db
       .select()
       .from(menuCategories)
@@ -76,7 +76,7 @@ app.openapi(
     },
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const body = c.req.valid("json");
     const [row] = await db.insert(menuCategories).values(body).returning();
     return c.json(row!, 201);
@@ -101,7 +101,7 @@ app.openapi(
     },
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const { id } = c.req.valid("param");
     const [row] = await db
       .select()
@@ -135,7 +135,7 @@ app.openapi(
     },
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const { id } = c.req.valid("param");
     const body = c.req.valid("json");
     const [row] = await db
@@ -168,7 +168,7 @@ app.openapi(
     },
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const { id } = c.req.valid("param");
     const [row] = await db
       .delete(menuCategories)
@@ -202,7 +202,7 @@ app.openapi(
     },
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const { categoryId, available } = c.req.valid("query");
     const conditions = [];
     if (categoryId) conditions.push(eq(menuItems.categoryId, categoryId));
@@ -240,7 +240,7 @@ app.openapi(
     },
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const body = c.req.valid("json");
     const [row] = await db.insert(menuItems).values(body).returning();
     return c.json(row!, 201);
@@ -265,7 +265,7 @@ app.openapi(
     },
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const { id } = c.req.valid("param");
     const [row] = await db.select().from(menuItems).where(eq(menuItems.id, id));
     if (!row) throw new HTTPException(404, { message: "Menu item not found" });
@@ -296,7 +296,7 @@ app.openapi(
     },
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const { id } = c.req.valid("param");
     const body = c.req.valid("json");
     const [row] = await db
@@ -336,7 +336,7 @@ app.openapi(
     },
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const { id } = c.req.valid("param");
     const { isAvailable } = c.req.valid("json");
     const [row] = await db
@@ -369,7 +369,7 @@ app.openapi(
     },
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const { id } = c.req.valid("param");
     const [row] = await db
       .delete(menuItems)

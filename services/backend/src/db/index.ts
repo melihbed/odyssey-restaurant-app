@@ -1,19 +1,22 @@
-// The database connection
 import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
 import * as schema from "./schema";
 
-export function createDb(envUrl?: string) {
-  const url = envUrl || process.env.DATABASE_URL;
+export function createDb(url?: string) {
+  const rawUrl = url || process.env.DATABASE_URL;
 
-  if (!url) {
+  if (!rawUrl) {
     throw new Error("DATABASE_URL is not set");
   }
 
-  const sql = neon(url);
-  return drizzle(sql);
+  // Neon's HTTP driver does not support channel_binding — strip it so the
+  // URL passes neon()'s validation even when Postgres clients append it.
+  const parsed = new URL(rawUrl);
+  parsed.searchParams.delete("channel_binding");
+  const dbUrl = parsed.toString();
+
+  return drizzle(neon(dbUrl), { schema });
 }
 
-// export create db function that every route calls to get a DB connection
 export type Db = ReturnType<typeof createDb>;
 export * from "./schema";

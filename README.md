@@ -116,7 +116,7 @@ Run the full test suite across all packages:
 pnpm test
 ```
 
-34 tests across 3 suites, all passing with no real database required.
+65 tests across 5 suites, all passing with no real database required.
 
 ### Backend (`services/backend`)
 
@@ -133,6 +133,14 @@ Tests the `ORDER_STATUS_LABELS`, `ORDER_STATUS_COLORS`, and `ORDER_ACTION_LABELS
 
 **Formatting Utilities — 10 tests**  
 Tests `formatCurrency`, `formatCompactNumber`, `truncate`, and `initials` from `@repo/shared`. Covers cents-to-dollars formatting, thousands abbreviation, ellipsis truncation, and initials extraction.
+
+**UI Component Tests — 31 tests**  
+Render tests for four key components using `@testing-library/react` + jsdom, with React Native mapped to DOM equivalents:
+
+- **Button (5 tests)** — renders label, shows spinner and hides label when loading, disabled state for both `loading` and `disabled` props, fires `onPress` handler.
+- **Badge / StatusBadge (9 tests)** — renders children, maps all 7 order statuses (`pending`, `accepted`, `preparing`, `ready`, `completed`, `rejected`, `cancelled`) to their display labels, passes unknown status strings through as-is.
+- **EmptyState / ErrorState (11 tests)** — conditional description rendering, action button only shown when both `actionLabel` and `onAction` are provided, click fires the handler; ErrorState default title, custom title, retry button presence and click, no retry when omitted.
+- **KpiCard (6 tests)** — label and value rendering, optional subvalue, upward/downward trend indicators (↑/↓), no trend when prop omitted.
 
 ---
 

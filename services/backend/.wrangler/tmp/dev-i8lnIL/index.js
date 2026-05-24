@@ -22756,6 +22756,16 @@ __name(drizzle, "drizzle");
 })(drizzle || (drizzle = {}));
 
 // src/db/schema.ts
+var schema_exports = {};
+__export(schema_exports, {
+  customers: () => customers,
+  menuCategories: () => menuCategories,
+  menuItems: () => menuItems,
+  orderItems: () => orderItems,
+  orderStatusEnum: () => orderStatusEnum,
+  orders: () => orders,
+  settings: () => settings
+});
 var orderStatusEnum = pgEnum("order_status", [
   "pending",
   "accepted",
@@ -22822,13 +22832,15 @@ var settings = pgTable("settings", {
 });
 
 // src/db/index.ts
-function createDb(envUrl) {
-  const url = envUrl || process.env.DATABASE_URL;
-  if (!url) {
+function createDb(url) {
+  const rawUrl = url || process.env.DATABASE_URL;
+  if (!rawUrl) {
     throw new Error("DATABASE_URL is not set");
   }
-  const sql2 = Xs(url);
-  return drizzle(sql2);
+  const parsed = new URL(rawUrl);
+  parsed.searchParams.delete("channel_binding");
+  const dbUrl = parsed.toString();
+  return drizzle(Xs(dbUrl), { schema: schema_exports });
 }
 __name(createDb, "createDb");
 
@@ -22864,7 +22876,7 @@ app.openapi(
     }
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const rows = await db.select().from(menuCategories).orderBy(asc(menuCategories.sortOrder));
     return c.json(rows, 200);
   }
@@ -22891,7 +22903,7 @@ app.openapi(
     }
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const body = c.req.valid("json");
     const [row] = await db.insert(menuCategories).values(body).returning();
     return c.json(row, 201);
@@ -22915,7 +22927,7 @@ app.openapi(
     }
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const { id } = c.req.valid("param");
     const [row] = await db.select().from(menuCategories).where(eq(menuCategories.id, id));
     if (!row)
@@ -22946,7 +22958,7 @@ app.openapi(
     }
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const { id } = c.req.valid("param");
     const body = c.req.valid("json");
     const [row] = await db.update(menuCategories).set({ ...body, updatedAt: /* @__PURE__ */ new Date() }).where(eq(menuCategories.id, id)).returning();
@@ -22975,7 +22987,7 @@ app.openapi(
     }
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const { id } = c.req.valid("param");
     const [row] = await db.delete(menuCategories).where(eq(menuCategories.id, id)).returning();
     if (!row)
@@ -23004,7 +23016,7 @@ app.openapi(
     }
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const { categoryId, available } = c.req.valid("query");
     const conditions = [];
     if (categoryId)
@@ -23039,7 +23051,7 @@ app.openapi(
     }
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const body = c.req.valid("json");
     const [row] = await db.insert(menuItems).values(body).returning();
     return c.json(row, 201);
@@ -23063,7 +23075,7 @@ app.openapi(
     }
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const { id } = c.req.valid("param");
     const [row] = await db.select().from(menuItems).where(eq(menuItems.id, id));
     if (!row)
@@ -23094,7 +23106,7 @@ app.openapi(
     }
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const { id } = c.req.valid("param");
     const body = c.req.valid("json");
     const [row] = await db.update(menuItems).set({ ...body, updatedAt: /* @__PURE__ */ new Date() }).where(eq(menuItems.id, id)).returning();
@@ -23130,7 +23142,7 @@ app.openapi(
     }
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const { id } = c.req.valid("param");
     const { isAvailable } = c.req.valid("json");
     const [row] = await db.update(menuItems).set({ isAvailable, updatedAt: /* @__PURE__ */ new Date() }).where(eq(menuItems.id, id)).returning();
@@ -23159,7 +23171,7 @@ app.openapi(
     }
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const { id } = c.req.valid("param");
     const [row] = await db.delete(menuItems).where(eq(menuItems.id, id)).returning();
     if (!row)
@@ -23277,7 +23289,7 @@ app2.openapi(
     }
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const { page, limit, search, sortBy, sortOrder } = c.req.valid("query");
     const offset = (page - 1) * limit;
     const sortCol = sortBy === "totalSpent" ? sql`coalesce(sum(${orders.totalCents}), 0)` : sortBy === "orderCount" ? sql`count(${orders.id})` : sortBy === "lastOrder" ? sql`max(${orders.createdAt})` : sortBy === "name" ? customers.name : customers.createdAt;
@@ -23325,7 +23337,7 @@ app2.openapi(
     }
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const body = c.req.valid("json");
     const [row] = await db.insert(customers).values(body).returning();
     return c.json(row, 201);
@@ -23358,7 +23370,7 @@ app2.openapi(
     }
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const { id } = c.req.valid("param");
     const [customer] = await db.select().from(customers).where(eq(customers.id, id));
     if (!customer)
@@ -23404,7 +23416,7 @@ app2.openapi(
     }
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const { id } = c.req.valid("param");
     const body = c.req.valid("json");
     const [row] = await db.update(customers).set({ ...body, updatedAt: /* @__PURE__ */ new Date() }).where(eq(customers.id, id)).returning();
@@ -23442,10 +23454,12 @@ app3.openapi(
         content: {
           "application/json": {
             schema: external_exports.object({
-              data: external_exports.array(orderSelectSchema.extend({
-                itemCount: external_exports.number(),
-                customerName: external_exports.string().nullable()
-              })),
+              data: external_exports.array(
+                orderSelectSchema.extend({
+                  itemCount: external_exports.number(),
+                  customerName: external_exports.string().nullable()
+                })
+              ),
               total: external_exports.number(),
               page: external_exports.number(),
               limit: external_exports.number()
@@ -23457,7 +23471,7 @@ app3.openapi(
     }
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const { page, limit, status, customerId, from, to: to2 } = c.req.valid("query");
     const offset = (page - 1) * limit;
     const conditions = [];
@@ -23484,7 +23498,10 @@ app3.openapi(
       customerName: customers.name
     }).from(orders).leftJoin(orderItems, eq(orderItems.orderId, orders.id)).leftJoin(customers, eq(customers.id, orders.customerId)).where(where).groupBy(orders.id, customers.name).orderBy(desc(orders.createdAt)).limit(limit).offset(offset);
     const [countRow] = await db.select({ count: sql`count(*)::int` }).from(orders).where(where);
-    return c.json({ data: rows, total: countRow?.count ?? 0, page, limit }, 200);
+    return c.json(
+      { data: rows, total: countRow?.count ?? 0, page, limit },
+      200
+    );
   }
 );
 app3.openapi(
@@ -23492,15 +23509,26 @@ app3.openapi(
     tags: ["orders"],
     method: "post",
     path: "/",
-    request: { body: { content: { "application/json": { schema: createOrderSchema } } } },
+    request: {
+      body: { content: { "application/json": { schema: createOrderSchema } } }
+    },
     responses: {
-      201: { content: { "application/json": { schema: orderWithDetailsSchema } }, description: "Created order" },
-      400: { content: { "application/json": { schema: errorSchema3 } }, description: "Validation error" },
-      422: { content: { "application/json": { schema: errorSchema3 } }, description: "Business rule violation" }
+      201: {
+        content: { "application/json": { schema: orderWithDetailsSchema } },
+        description: "Created order"
+      },
+      400: {
+        content: { "application/json": { schema: errorSchema3 } },
+        description: "Validation error"
+      },
+      422: {
+        content: { "application/json": { schema: errorSchema3 } },
+        description: "Business rule violation"
+      }
     }
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const body = c.req.valid("json");
     if (body.customerId) {
       const [customer2] = await db.select().from(customers).where(eq(customers.id, body.customerId));
@@ -23513,9 +23541,13 @@ app3.openapi(
     for (const reqItem of body.items) {
       const dbItem = itemMap.get(reqItem.menuItemId);
       if (!dbItem)
-        throw new HTTPException(422, { message: `Menu item ${reqItem.menuItemId} not found` });
+        throw new HTTPException(422, {
+          message: `Menu item ${reqItem.menuItemId} not found`
+        });
       if (!dbItem.isAvailable)
-        throw new HTTPException(422, { message: `Menu item '${dbItem.name}' is not available` });
+        throw new HTTPException(422, {
+          message: `Menu item '${dbItem.name}' is not available`
+        });
     }
     let subtotalCents = 0;
     const lineItems = body.items.map((reqItem) => {
@@ -23562,12 +23594,18 @@ app3.openapi(
     path: "/{id}",
     request: { params: external_exports.object({ id: external_exports.string().uuid() }) },
     responses: {
-      200: { content: { "application/json": { schema: orderWithDetailsSchema } }, description: "Order detail" },
-      404: { content: { "application/json": { schema: errorSchema3 } }, description: "Not found" }
+      200: {
+        content: { "application/json": { schema: orderWithDetailsSchema } },
+        description: "Order detail"
+      },
+      404: {
+        content: { "application/json": { schema: errorSchema3 } },
+        description: "Not found"
+      }
     }
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const { id } = c.req.valid("param");
     const [order] = await db.select().from(orders).where(eq(orders.id, id));
     if (!order)
@@ -23578,7 +23616,15 @@ app3.openapi(
       const [c2] = await db.select().from(customers).where(eq(customers.id, order.customerId));
       customer = c2 ?? null;
     }
-    return c.json({ ...order, items, customer, validActions: getValidActions(order.status) }, 200);
+    return c.json(
+      {
+        ...order,
+        items,
+        customer,
+        validActions: getValidActions(order.status)
+      },
+      200
+    );
   }
 );
 app3.openapi(
@@ -23591,13 +23637,22 @@ app3.openapi(
       body: { content: { "application/json": { schema: orderActionSchema } } }
     },
     responses: {
-      200: { content: { "application/json": { schema: orderWithDetailsSchema } }, description: "Updated order" },
-      404: { content: { "application/json": { schema: errorSchema3 } }, description: "Not found" },
-      422: { content: { "application/json": { schema: errorSchema3 } }, description: "Invalid transition" }
+      200: {
+        content: { "application/json": { schema: orderWithDetailsSchema } },
+        description: "Updated order"
+      },
+      404: {
+        content: { "application/json": { schema: errorSchema3 } },
+        description: "Not found"
+      },
+      422: {
+        content: { "application/json": { schema: errorSchema3 } },
+        description: "Invalid transition"
+      }
     }
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const { id } = c.req.valid("param");
     const { action } = c.req.valid("json");
     const [order] = await db.select().from(orders).where(eq(orders.id, id));
@@ -23615,7 +23670,15 @@ app3.openapi(
       const [cu2] = await db.select().from(customers).where(eq(customers.id, updated.customerId));
       customer = cu2 ?? null;
     }
-    return c.json({ ...updated, items, customer, validActions: getValidActions(updated.status) }, 200);
+    return c.json(
+      {
+        ...updated,
+        items,
+        customer,
+        validActions: getValidActions(updated.status)
+      },
+      200
+    );
   }
 );
 
@@ -23647,11 +23710,14 @@ app4.openapi(
     method: "get",
     path: "/",
     responses: {
-      200: { content: { "application/json": { schema: settingsResponseSchema } }, description: "Current settings" }
+      200: {
+        content: { "application/json": { schema: settingsResponseSchema } },
+        description: "Current settings"
+      }
     }
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const keys = Object.keys(DEFAULT_SETTINGS);
     const rows = await db.select().from(settings).where(inArray(settings.key, keys));
     const result = { ...DEFAULT_SETTINGS };
@@ -23666,19 +23732,34 @@ app4.openapi(
     tags: ["settings"],
     method: "put",
     path: "/",
-    request: { body: { content: { "application/json": { schema: settingsSchema } } } },
+    request: {
+      body: { content: { "application/json": { schema: settingsSchema } } }
+    },
     responses: {
-      200: { content: { "application/json": { schema: settingsResponseSchema } }, description: "Updated settings" }
+      200: {
+        content: { "application/json": { schema: settingsResponseSchema } },
+        description: "Updated settings"
+      }
     }
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const body = c.req.valid("json");
     const entries = Object.entries(body).filter(([, v2]) => v2 !== void 0);
     if (entries.length > 0) {
       await Promise.all(
         entries.map(
-          ([key, value]) => db.insert(settings).values({ key, value, updatedAt: /* @__PURE__ */ new Date() }).onConflictDoUpdate({ target: settings.key, set: { value, updatedAt: /* @__PURE__ */ new Date() } })
+          ([key, value]) => db.insert(settings).values({
+            key,
+            value,
+            updatedAt: /* @__PURE__ */ new Date()
+          }).onConflictDoUpdate({
+            target: settings.key,
+            set: {
+              value,
+              updatedAt: /* @__PURE__ */ new Date()
+            }
+          })
         )
       );
     }
@@ -23718,11 +23799,14 @@ app5.openapi(
     method: "get",
     path: "/stats",
     responses: {
-      200: { content: { "application/json": { schema: statsSchema } }, description: "Dashboard KPIs" }
+      200: {
+        content: { "application/json": { schema: statsSchema } },
+        description: "Dashboard KPIs"
+      }
     }
   }),
   async (c) => {
-    const db = createDb(c.env);
+    const db = createDb(c.env.DATABASE_URL);
     const todayStart = /* @__PURE__ */ new Date();
     todayStart.setHours(0, 0, 0, 0);
     const [todayStats] = await db.select({
