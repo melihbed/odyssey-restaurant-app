@@ -1,5 +1,7 @@
 # Odyssey Restaurant — Fullstack Assignment
 
+[![tests](https://github.com/melihbed/odyssey-restaurant-app/actions/workflows/tests.yml/badge.svg)](https://github.com/melihbed/odyssey-restaurant-app/actions/workflows/tests.yml)
+
 A production-quality restaurant operations dashboard built to Odyssey's stack specs.
 
 **Live demo:** [odyssey-dashboard.pages.dev](https://odyssey-dashboard.pages.dev) · **API:** [odyssey-restaurant-backend.melihcalis.workers.dev](https://odyssey-restaurant-backend.melihcalis.workers.dev) · **API docs:** [/ui](https://odyssey-restaurant-backend.melihcalis.workers.dev/ui)
