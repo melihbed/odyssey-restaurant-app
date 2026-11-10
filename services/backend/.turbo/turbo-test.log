@@ -1,75 +1,223 @@
 
 
-> backend@0.0.0 test /Users/melih/Odyssey Assignment/odyssey-restaurant/services/backend
+> backend@0.0.0 test /Users/melih/Sites/odyssey-restaurant-app/services/backend
 > vitest run
 
 [?25l
-[1m[46m RUN [49m[22m [36mv3.2.4 [39m[90m/Users/melih/Odyssey Assignment/odyssey-restaurant/services/backend[39m
+[1m[46m RUN [49m[22m [36mv3.2.4 [39m[90m/Users/melih/Sites/odyssey-restaurant-app/services/backend[39m
 
 [?2026h
-[1m[33m ❯ [39m[22msrc/__tests__/order-state-machine.test.ts[2m [queued][22m
-
-[2m Test Files [22m[1m[32m0 passed[39m[22m[90m (2)[39m
-[2m      Tests [22m[1m[32m0 passed[39m[22m[90m (0)[39m
-[2m   Start at [22m21:09:16
-[2m   Duration [22m309ms
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
-[1m[33m ❯ [39m[22msrc/__tests__/order-state-machine.test.ts[2m [queued][22m
 [1m[33m ❯ [39m[22msrc/__tests__/orders.test.ts[2m [queued][22m
 
 [2m Test Files [22m[1m[32m0 passed[39m[22m[90m (2)[39m
 [2m      Tests [22m[1m[32m0 passed[39m[22m[90m (0)[39m
-[2m   Start at [22m21:09:16
-[2m   Duration [22m510ms
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m src/__tests__/order-state-machine.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+[2m   Start at [22m23:17:35
+[2m   Duration [22m624ms
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22msrc/__tests__/order-state-machine.test.ts[2m 0/13[22m
+[1m[33m ❯ [39m[22msrc/__tests__/orders.test.ts[2m [queued][22m
 
+[2m Test Files [22m[1m[32m0 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m[1m[32m0 passed[39m[22m[90m (13)[39m
+[2m   Start at [22m23:17:35
+[2m   Duration [22m829ms
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m src/__tests__/order-state-machine.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+
+[1m[33m ❯ [39m[22msrc/__tests__/orders.test.ts[2m [queued][22m
+
+[2m Test Files [22m[1m[32m1 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m[1m[32m13 passed[39m[22m[90m (13)[39m
+[2m   Start at [22m23:17:35
+[2m   Duration [22m929ms
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
 [1m[33m ❯ [39m[22msrc/__tests__/orders.test.ts[2m 0/6[22m
 
 [2m Test Files [22m[1m[32m1 passed[39m[22m[90m (2)[39m
 [2m      Tests [22m[1m[32m13 passed[39m[22m[90m (19)[39m
-[2m   Start at [22m21:09:16
-[2m   Duration [22m811ms
+[2m   Start at [22m23:17:35
+[2m   Duration [22m1.75s
 [?2026l[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[90mstdout[2m | src/__tests__/orders.test.ts[2m > [22m[2mOrder validation[2m > [22m[2mrejects empty items array
 [22m[39m<-- POST /orders
 
+[90mstderr[2m | src/__tests__/orders.test.ts[2m > [22m[2mOrder validation[2m > [22m[2mrejects empty items array
+[22m[39mTypeError: Cannot read properties of undefined (reading 'ALLOWED_ORIGINS')
+    at [90m/Users/melih/Sites/odyssey-restaurant-app/services/backend/[39msrc/index.ts:30:27
+    at dispatch (file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/compose.js:22:23)
+    at file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/compose.js:22:46
+    at prettyJSON2 (file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/middleware/pretty-json/index.js:6:11)
+    at dispatch (file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/compose.js:22:23)
+    at file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/compose.js:22:46
+    at logger2 (file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/middleware/logger/index.js:38:11)
+[90m    at processTicksAndRejections (node:internal/process/task_queues:104:5)[39m
+    at dispatch (file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/compose.js:22:17)
+    at file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/hono-base.js:306:25
+
 [90mstdout[2m | src/__tests__/orders.test.ts[2m > [22m[2mOrder validation[2m > [22m[2mrejects empty items array
-[22m[39m--> POST /orders [33m400[0m 1ms
+[22m[39m--> POST /orders [31m500[0m 16ms
 
 [90mstdout[2m | src/__tests__/orders.test.ts[2m > [22m[2mOrder validation[2m > [22m[2mrejects invalid UUID for menuItemId
 [22m[39m<-- POST /orders
 
+[90mstderr[2m | src/__tests__/orders.test.ts[2m > [22m[2mOrder validation[2m > [22m[2mrejects invalid UUID for menuItemId
+[22m[39mTypeError: Cannot read properties of undefined (reading 'ALLOWED_ORIGINS')
+    at [90m/Users/melih/Sites/odyssey-restaurant-app/services/backend/[39msrc/index.ts:30:27
+    at dispatch (file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/compose.js:22:23)
+    at file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/compose.js:22:46
+    at prettyJSON2 (file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/middleware/pretty-json/index.js:6:11)
+    at dispatch (file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/compose.js:22:23)
+    at file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/compose.js:22:46
+    at logger2 (file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/middleware/logger/index.js:38:11)
+[90m    at processTicksAndRejections (node:internal/process/task_queues:104:5)[39m
+    at dispatch (file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/compose.js:22:17)
+    at file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/hono-base.js:306:25
+
 [90mstdout[2m | src/__tests__/orders.test.ts[2m > [22m[2mOrder validation[2m > [22m[2mrejects invalid UUID for menuItemId
-[22m[39m--> POST /orders [33m400[0m 1ms
+[22m[39m--> POST /orders [31m500[0m 0ms
 
 [90mstdout[2m | src/__tests__/orders.test.ts[2m > [22m[2mOrder validation[2m > [22m[2mrejects quantity of 0
 [22m[39m<-- POST /orders
 
+[90mstderr[2m | src/__tests__/orders.test.ts[2m > [22m[2mOrder validation[2m > [22m[2mrejects quantity of 0
+[22m[39mTypeError: Cannot read properties of undefined (reading 'ALLOWED_ORIGINS')
+    at [90m/Users/melih/Sites/odyssey-restaurant-app/services/backend/[39msrc/index.ts:30:27
+    at dispatch (file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/compose.js:22:23)
+    at file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/compose.js:22:46
+    at prettyJSON2 (file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/middleware/pretty-json/index.js:6:11)
+    at dispatch (file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/compose.js:22:23)
+    at file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/compose.js:22:46
+    at logger2 (file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/middleware/logger/index.js:38:11)
+[90m    at processTicksAndRejections (node:internal/process/task_queues:104:5)[39m
+    at dispatch (file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/compose.js:22:17)
+    at file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/hono-base.js:306:25
+
 [90mstdout[2m | src/__tests__/orders.test.ts[2m > [22m[2mOrder validation[2m > [22m[2mrejects quantity of 0
-[22m[39m--> POST /orders [33m400[0m 0ms
+[22m[39m--> POST /orders [31m500[0m 0ms
 
 [90mstdout[2m | src/__tests__/orders.test.ts[2m > [22m[2mOrder actions validation[2m > [22m[2mrejects unknown action
 [22m[39m<-- POST /orders/00000000-0000-0000-0000-000000000001/actions
 
+[90mstderr[2m | src/__tests__/orders.test.ts[2m > [22m[2mOrder actions validation[2m > [22m[2mrejects unknown action
+[22m[39mTypeError: Cannot read properties of undefined (reading 'ALLOWED_ORIGINS')
+    at [90m/Users/melih/Sites/odyssey-restaurant-app/services/backend/[39msrc/index.ts:30:27
+    at dispatch (file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/compose.js:22:23)
+    at file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/compose.js:22:46
+    at prettyJSON2 (file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/middleware/pretty-json/index.js:6:11)
+    at dispatch (file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/compose.js:22:23)
+    at file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/compose.js:22:46
+    at logger2 (file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/middleware/logger/index.js:38:11)
+[90m    at processTicksAndRejections (node:internal/process/task_queues:104:5)[39m
+    at dispatch (file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/compose.js:22:17)
+    at file:///Users/melih/Sites/odyssey-restaurant-app/node_modules/[4m.pnpm[24m/hono@4.12.22/node_modules/[4mhono[24m/dist/hono-base.js:306:25
+
 [90mstdout[2m | src/__tests__/orders.test.ts[2m > [22m[2mOrder actions validation[2m > [22m[2mrejects unknown action
-[22m[39m--> POST /orders/00000000-0000-0000-0000-000000000001/actions [33m400[0m 0ms
+[22m[39m--> POST /orders/00000000-0000-0000-0000-000000000001/actions [31m500[0m 0ms
 
 [90mstdout[2m | src/__tests__/orders.test.ts[2m > [22m[2mMenu availability query params[2m > [22m[2maccepts valid available filter
 [22m[39m<-- GET /menu/items?available=true
 
 [90mstdout[2m | src/__tests__/orders.test.ts[2m > [22m[2mMenu availability query params[2m > [22m[2maccepts valid available filter
-[22m[39m--> GET /menu/items?available=true [32m200[0m 0ms
+[22m[39m--> GET /menu/items?available=true [32m200[0m 3ms
 
 [90mstdout[2m | src/__tests__/orders.test.ts[2m > [22m[2mMenu availability query params[2m > [22m[2mrejects invalid available value
 [22m[39m<-- GET /menu/items?available=maybe
 
 [90mstdout[2m | src/__tests__/orders.test.ts[2m > [22m[2mMenu availability query params[2m > [22m[2mrejects invalid available value
-[22m[39m--> GET /menu/items?available=maybe [33m400[0m 0ms
+[22m[39m--> GET /menu/items?available=maybe [33m400[0m 1ms
 
- [32m✓[39m src/__tests__/orders.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+ [31m❯[39m src/__tests__/orders.test.ts [2m([22m[2m6 tests[22m[2m | [22m[31m4 failed[39m[2m)[22m[32m 48[2mms[22m[39m
+[31m   [31m×[31m Order validation[2m > [22mrejects empty items array[39m[32m 37[2mms[22m[39m
+[31m     → expected 500 to be 400 // Object.is equality[39m
+[31m   [31m×[31m Order validation[2m > [22mrejects invalid UUID for menuItemId[39m[32m 1[2mms[22m[39m
+[31m     → expected 500 to be 400 // Object.is equality[39m
+[31m   [31m×[31m Order validation[2m > [22mrejects quantity of 0[39m[32m 1[2mms[22m[39m
+[31m     → expected 500 to be 400 // Object.is equality[39m
+[31m   [31m×[31m Order actions validation[2m > [22mrejects unknown action[39m[32m 1[2mms[22m[39m
+[31m     → expected 500 to be 400 // Object.is equality[39m
+   [32m✓[39m Menu availability query params[2m > [22maccepts valid available filter[32m 4[2mms[22m[39m
+   [32m✓[39m Menu availability query params[2m > [22mrejects invalid available value[32m 3[2mms[22m[39m
 
-[2m Test Files [22m [1m[32m2 passed[39m[22m[90m (2)[39m
-[2m      Tests [22m [1m[32m19 passed[39m[22m[90m (19)[39m
-[2m   Start at [22m 21:09:16
-[2m   Duration [22m 908ms[2m (transform 138ms, setup 0ms, collect 585ms, tests 16ms, environment 1ms, prepare 312ms)[22m
+[31m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 4 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[39m
 
-[?25h
+[41m[1m FAIL [22m[49m src/__tests__/orders.test.ts[2m > [22mOrder validation[2m > [22mrejects empty items array
+[31m[1mAssertionError[22m: expected 500 to be 400 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 400[39m
+[31m+ 500[39m
+
+[36m [2m❯[22m src/__tests__/orders.test.ts:[2m31:24[22m[39m
+    [90m 29| [39m    })
+    [90m 30| [39m    [90m// Zod validation should reject this (min 1 items)[39m
+    [90m 31| [39m    [34mexpect[39m(res[33m.[39mstatus)[33m.[39m[34mtoBe[39m([34m400[39m)
+    [90m   | [39m                       [31m^[39m
+    [90m 32| [39m  })
+    [90m 33| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/__tests__/orders.test.ts[2m > [22mOrder validation[2m > [22mrejects invalid UUID for menuItemId
+[31m[1mAssertionError[22m: expected 500 to be 400 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 400[39m
+[31m+ 500[39m
+
+[36m [2m❯[22m src/__tests__/orders.test.ts:[2m40:24[22m[39m
+    [90m 38| [39m      body[33m:[39m [33mJSON[39m[33m.[39m[34mstringify[39m({ items[33m:[39m [{ menuItemId[33m:[39m [32m'not-a-uuid'[39m[33m,[39m quantity[33m:[39m [34m1[39m }] })[33m,[39m
+    [90m 39| [39m    })
+    [90m 40| [39m    [34mexpect[39m(res[33m.[39mstatus)[33m.[39m[34mtoBe[39m([34m400[39m)
+    [90m   | [39m                       [31m^[39m
+    [90m 41| [39m  })
+    [90m 42| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/__tests__/orders.test.ts[2m > [22mOrder validation[2m > [22mrejects quantity of 0
+[31m[1mAssertionError[22m: expected 500 to be 400 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 400[39m
+[31m+ 500[39m
+
+[36m [2m❯[22m src/__tests__/orders.test.ts:[2m51:24[22m[39m
+    [90m 49| [39m      })[33m,[39m
+    [90m 50| [39m    })
+    [90m 51| [39m    [34mexpect[39m(res[33m.[39mstatus)[33m.[39m[34mtoBe[39m([34m400[39m)
+    [90m   | [39m                       [31m^[39m
+    [90m 52| [39m  })
+    [90m 53| [39m})
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/__tests__/orders.test.ts[2m > [22mOrder actions validation[2m > [22mrejects unknown action
+[31m[1mAssertionError[22m: expected 500 to be 400 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 400[39m
+[31m+ 500[39m
+
+[36m [2m❯[22m src/__tests__/orders.test.ts:[2m62:24[22m[39m
+    [90m 60| [39m      body[33m:[39m [33mJSON[39m[33m.[39m[34mstringify[39m({ action[33m:[39m [32m'fly_to_moon'[39m })[33m,[39m
+    [90m 61| [39m    })
+    [90m 62| [39m    [34mexpect[39m(res[33m.[39mstatus)[33m.[39m[34mtoBe[39m([34m400[39m)
+    [90m   | [39m                       [31m^[39m
+    [90m 63| [39m  })
+    [90m 64| [39m})
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[31m4 failed[39m[22m[2m | [22m[1m[32m15 passed[39m[22m[90m (19)[39m
+[2m   Start at [22m 23:17:35
+[2m   Duration [22m 1.88s[2m (transform 291ms, setup 0ms, collect 1.17s, tests 58ms, environment 1ms, prepare 259ms)[22m
+
+[?25h[41m[30m ELIFECYCLE [39m[49m [31mTest failed. See above for more details.[39m

@@ -27,7 +27,7 @@ const LOCAL_ORIGINS = [
 ];
 
 app.use("*", (c, next) => {
-  const deployed = (c.env.ALLOWED_ORIGINS ?? "")
+  const deployed = (c.env?.ALLOWED_ORIGINS ?? "")
     .split(",")
     .map((origin) => origin.trim())
     .filter(Boolean);
