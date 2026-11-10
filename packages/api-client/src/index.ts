@@ -9,3 +9,6 @@ export * from './generated/settings/settings'
 export * from './generated/home/home'
 export * from './generated/odysseyRestaurantAPI.schemas'
 export * from './mutator'
+
+// Shared axios instance, so the app can point it at the deployed API
+export { axiosInstance } from './mutator'

@@ -4,7 +4,9 @@ compatibility_date = "2025-01-01"
 compatibility_flags = ["nodejs_compat"]
 
 [vars]
-ENVIRONMENT = "development"
+ENVIRONMENT = "production"
+# Deployed dashboard origin(s), comma-separated. Update if Pages gives a different URL.
+ALLOWED_ORIGINS = "https://odyssey-dashboard.pages.dev"
 
 # For local dev, set DATABASE_URL in .dev.vars
 # [[ d1_databases ]] not used — we use Neon serverless PostgreSQL

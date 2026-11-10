@@ -2,6 +2,10 @@
 
 A production-quality restaurant operations dashboard built to Odyssey's stack specs.
 
+**Live demo:** [odyssey-dashboard.pages.dev](https://odyssey-dashboard.pages.dev) · **API:** [odyssey-restaurant-backend.melihcalis.workers.dev](https://odyssey-restaurant-backend.melihcalis.workers.dev) · **API docs:** [/ui](https://odyssey-restaurant-backend.melihcalis.workers.dev/ui)
+
+Deployed on Cloudflare Pages (dashboard) and Cloudflare Workers (API), with Neon serverless PostgreSQL. The demo is public; data is reset periodically.
+
 ## Stack
 
 | Layer | Technology |

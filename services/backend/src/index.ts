@@ -17,19 +17,26 @@ const app = new OpenAPIHono<{ Bindings: Env }>();
 // Add middleware
 app.use("*", logger());
 app.use("*", prettyJSON());
-app.use(
-  "*",
-  cors({
-    origin: [
-      "http://localhost:8082",
-      "http://localhost:8081",
-      "http://localhost:3000",
-      "http://localhost:19006",
-    ],
+// Allowed browser origins: local dev servers plus any deployed frontends
+// listed (comma-separated) in the ALLOWED_ORIGINS variable.
+const LOCAL_ORIGINS = [
+  "http://localhost:8082",
+  "http://localhost:8081",
+  "http://localhost:3000",
+  "http://localhost:19006",
+];
+
+app.use("*", (c, next) => {
+  const deployed = (c.env.ALLOWED_ORIGINS ?? "")
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+  return cors({
+    origin: [...LOCAL_ORIGINS, ...deployed],
     allowMethods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowHeaders: ["Content-Type", "Authorization"],
-  })
-);
+  })(c, next);
+});
 
 // Mount all route files
 app.route("/menu", menuRouter);
